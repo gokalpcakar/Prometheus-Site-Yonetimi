@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prometheus.DB\Prometheus.DB.csproj" />
+    <ProjectReference Include="..\Prometheus.Model\Prometheus.Model.csproj" />
+  </ItemGroup>
+
+</Project>
