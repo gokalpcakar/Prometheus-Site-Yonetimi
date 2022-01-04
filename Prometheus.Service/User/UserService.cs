@@ -5,8 +5,6 @@ using Prometheus.Model.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prometheus.Service.User
 {
@@ -17,6 +15,8 @@ namespace Prometheus.Service.User
         {
             mapper = _mapper;
         }
+
+        // getting user only by id
         public General<UserViewModel> GetById(int id)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
@@ -25,7 +25,7 @@ namespace Prometheus.Service.User
             {
                 var data = context.User.SingleOrDefault(i => i.Id == id);
 
-                // veritabanında böyle bir kullanıcının olup olmadığı kontrol ediliyor
+                // we are checking whether we have data or not
                 if (data is not null)
                 {
                     result.Entity = mapper.Map<UserViewModel>(data);
@@ -41,7 +41,7 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        // Tüm kullanıcıların listelendiği metot
+        // getting all users
         public General<UserViewModel> GetUsers()
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
@@ -50,7 +50,7 @@ namespace Prometheus.Service.User
             {
                 var data = context.User.ToList();
 
-                // veritabanında kullanıcı varsa kullanılar listeleniyor yoksa mesaj dönüyor
+                // if we have user then we can list them otherwise we get exception message
                 if (data.Any())
                 {
                     result.List = mapper.Map<List<UserViewModel>>(data);
@@ -68,7 +68,7 @@ namespace Prometheus.Service.User
 
         public General<UserViewModel> AddUser(AddUserViewModel newUser)
         {
-            var result = new General<UserViewModel>();
+            var result = new General<UserViewModel>() { IsSuccess = false };
 
             try
             {
@@ -76,7 +76,7 @@ namespace Prometheus.Service.User
 
                 using (var context = new PrometheusContext())
                 {
-                    // veritabanında kullanıcı varsa kullanılar listeleniyor yoksa mesaj dönüyor
+                    // if model is not null then we can add user to database
                     if (model is not null)
                     {
                         model.Idate = DateTime.Now;

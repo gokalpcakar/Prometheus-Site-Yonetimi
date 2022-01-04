@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Prometheus.API.Infrastructure;
+using Prometheus.Service.Bill;
 using Prometheus.Service.User;
 
 namespace Prometheus.API
@@ -22,14 +23,16 @@ namespace Prometheus.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // adding profile
             var _mappingProfile = new MapperConfiguration(mp => { mp.AddProfile(new MappingProfile()); });
             IMapper mapper = _mappingProfile.CreateMapper();
 
-            // Mapper'ýn inject edildiði kýsým
+            // mapper dependency injection
             services.AddSingleton(mapper);
 
-            // User ve Product interface'lerinin alakalý class'lara inject edildiði kýsým
+            // service dependency injection
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IBillService, BillService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

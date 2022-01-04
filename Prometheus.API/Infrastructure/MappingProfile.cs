@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Prometheus.DB.Entities;
+using Prometheus.Model.Bill;
 using Prometheus.Model.User;
 
 namespace Prometheus.API.Infrastructure
 {
     public class MappingProfile : Profile
     {
-        // Hangi DB class'ı ile hangi ViewModel'in map'leneceğini ayarladığımız kısım
+        // mapping db classes with viewmodels
         public MappingProfile()
         {
             CreateMap<User, UserViewModel>();
@@ -14,6 +15,12 @@ namespace Prometheus.API.Infrastructure
 
             CreateMap<User, AddUserViewModel>();
             CreateMap<AddUserViewModel, User>();
+
+            CreateMap<Bill, BillViewModel>();
+            CreateMap<BillViewModel, Bill>();
+
+            CreateMap<Bill, AddBillViewModel>();
+            CreateMap<AddBillViewModel, Bill>();
         }
     }
 }
