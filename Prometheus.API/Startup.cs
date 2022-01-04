@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Prometheus.API.Infrastructure;
+using Prometheus.Service.User;
 
 namespace Prometheus.API
 {
@@ -26,6 +27,9 @@ namespace Prometheus.API
 
             // Mapper'ýn inject edildiði kýsým
             services.AddSingleton(mapper);
+
+            // User ve Product interface'lerinin alakalý class'lara inject edildiði kýsým
+            services.AddTransient<IUserService, UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
