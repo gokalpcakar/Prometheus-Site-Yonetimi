@@ -9,7 +9,6 @@ namespace Prometheus.DB.Entities.DataContext
 {
     public partial class PrometheusContext : DbContext
     {
-        // Scaffold-DbContext "Server=.;Database=Prometheus;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -Contextdir Entities/DataContext -Context PrometheusContext -Project Prometheus.DB -StartUpProject Prometheus.DB -NoPluralize -Force
         public PrometheusContext()
         {
         }
@@ -28,7 +27,7 @@ namespace Prometheus.DB.Entities.DataContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=.;Database=Prometheus;Trusted_Connection=True;");
             }
         }
@@ -116,14 +115,10 @@ namespace Prometheus.DB.Entities.DataContext
                     .HasColumnType("datetime")
                     .HasColumnName("UDate");
 
-                entity.HasOne(d => d.Admin)
-                    .WithMany(p => p.Bill)
-                    .HasForeignKey(d => d.AdminId)
-                    .HasConstraintName("FK_Bill_Admin");
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Bill)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Bill_User");
             });
 

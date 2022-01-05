@@ -7,11 +7,6 @@ namespace Prometheus.DB.Entities
 {
     public partial class Admin
     {
-        public Admin()
-        {
-            Bill = new HashSet<Bill>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -27,6 +22,5 @@ namespace Prometheus.DB.Entities
         public int ApartmentId { get; set; }
 
         public virtual Apartment Apartment { get; set; }
-        public virtual ICollection<Bill> Bill { get; set; }
     }
 }

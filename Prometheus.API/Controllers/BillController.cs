@@ -23,15 +23,34 @@ namespace Prometheus.API.Controllers
         }
 
         [HttpGet]
-        public General<BillViewModel> GetBills()
+        public General<BillViewModel> GetAllBills()
         {
-            return billService.GetBills();
+            return billService.GetAllBills();
+        }
+
+        [Route("GetUnpaidBills")]
+        [HttpGet]
+        public General<BillViewModel> GetUnpaidBills()
+        {
+            return billService.GetUnpaidBills();
         }
 
         [HttpPost]
         public General<BillViewModel> AddBill(AddBillViewModel newBill)
         {
             return billService.AddBill(newBill);
+        }
+
+        [HttpPut]
+        public General<BillViewModel> UpdateBill(UpdateBillViewModel bill)
+        {
+            return billService.UpdateBill(bill);
+        }
+
+        [HttpDelete("{id}")]
+        public General<BillViewModel> DeleteBill(int id)
+        {
+            return billService.DeleteBill(id);
         }
     }
 }
