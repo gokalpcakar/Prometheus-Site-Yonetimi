@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Prometheus.DB.Entities;
+using Prometheus.Model.Apartment;
 using Prometheus.Model.Bill;
 using Prometheus.Model.User;
 
@@ -21,6 +22,9 @@ namespace Prometheus.API.Infrastructure
 
             CreateMap<Bill, AddBillViewModel>();
             CreateMap<AddBillViewModel, Bill>();
+
+            CreateMap<Apartment, ApartmentViewModel>();
+            CreateMap<ApartmentViewModel, Apartment>();
         }
     }
 }

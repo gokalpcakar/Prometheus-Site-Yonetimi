@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Prometheus.API.Infrastructure;
+using Prometheus.Service.Apartment;
 using Prometheus.Service.Bill;
 using Prometheus.Service.User;
 
@@ -33,6 +34,7 @@ namespace Prometheus.API
             // service dependency injection
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBillService, BillService>();
+            services.AddTransient<IApartmentService, ApartmentService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
