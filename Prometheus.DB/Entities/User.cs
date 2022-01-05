@@ -22,7 +22,9 @@ namespace Prometheus.DB.Entities
         public string PlateNo { get; set; }
         public DateTime Idate { get; set; }
         public DateTime? Udate { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
+        
+        // public bool? IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public int ApartmentId { get; set; }
 

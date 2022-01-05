@@ -32,5 +32,17 @@ namespace Prometheus.API.Controllers
         {
             return userService.AddUser(newUser);
         }
+
+        [HttpPut]
+        public General<UserViewModel> UpdateUser([FromBody] UpdateUserViewModel user)
+        {
+            return userService.UpdateUser(user);
+        }
+
+        [HttpDelete("{id}")]
+        public General<UserViewModel> DeleteUser(int id)
+        {
+            return userService.DeleteUser(id);
+        }
     }
 }

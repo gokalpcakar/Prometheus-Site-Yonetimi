@@ -23,7 +23,12 @@ namespace Prometheus.Service.User
 
             using (var context = new PrometheusContext())
             {
-                var data = context.User.SingleOrDefault(i => i.Id == id);
+                var data = context.User
+                                    .SingleOrDefault
+                                    (
+                                        i => i.Id == id &&
+                                        i.IsActive && !i.IsDeleted
+                                    );
 
                 // we are checking whether we have data or not
                 if (data is not null)
@@ -41,14 +46,16 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        // getting all users
+        // getting all active and not deleted users
         public General<UserViewModel> GetUsers()
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 
             using (var context = new PrometheusContext())
             {
-                var data = context.User.ToList();
+                var data = context.User
+                                    .Where(x => x.IsActive && !x.IsDeleted)
+                                    .OrderBy(x => x.Id);
 
                 // if we have user then we can list them otherwise we get exception message
                 if (data.Any())
@@ -96,6 +103,82 @@ namespace Prometheus.Service.User
             catch
             {
                 result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+            }
+
+            return result;
+        }
+
+        public General<UserViewModel> UpdateUser(UpdateUserViewModel user)
+        {
+            var result = new General<UserViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.User.SingleOrDefault(i => i.Id == user.Id);
+
+                    if (model is not null)
+                    {
+                        model.Name = user.Name;
+                        model.Surname = user.Surname;
+                        model.Email = user.Email;
+                        model.Phone = user.Phone;
+                        model.Password = user.Password;
+                        model.Tc = user.Tc;
+                        model.PlateNo = user.PlateNo;
+                        model.ApartmentId = user.ApartmentId;
+                        model.Udate = DateTime.Now;
+
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<UserViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Kullanıcılar başarıyla güncellenmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrardan deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+            }
+
+            return result;
+        }
+
+        public General<UserViewModel> DeleteUser(int id)
+        {
+            var result = new General<UserViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.User.SingleOrDefault(i => i.Id == id);
+
+                    if (model is not null)
+                    {
+                        model.IsActive = false;
+                        model.IsDeleted = true;
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<UserViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Kullanıcı silme işlemi başarıyla gerçekleştirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu";
             }
 
             return result;
