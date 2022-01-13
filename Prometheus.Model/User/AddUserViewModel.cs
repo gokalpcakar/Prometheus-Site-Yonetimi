@@ -1,8 +1,11 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace Prometheus.Model.User
 {
     public class AddUserViewModel
     {
+        [Required(ErrorMessage = "Ad alanı zorunludur")]
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }

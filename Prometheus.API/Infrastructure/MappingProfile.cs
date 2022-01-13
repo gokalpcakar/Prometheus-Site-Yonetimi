@@ -12,7 +12,7 @@ namespace Prometheus.API.Infrastructure
         public MappingProfile()
         {
             CreateMap<User, UserViewModel>();
-            CreateMap<UserViewModel, User>();
+            CreateMap<UserViewModel, User>(); 
 
             CreateMap<User, AddUserViewModel>();
             CreateMap<AddUserViewModel, User>();

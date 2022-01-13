@@ -73,7 +73,7 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        public General<UserViewModel> AddUser(AddUserViewModel newUser)
+        public General<UserViewModel> Register(AddUserViewModel newUser)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 

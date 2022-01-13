@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Prometheus.DB.Entities.DataContext;
 using Prometheus.Model;
 using Prometheus.Model.Bill;
 using Prometheus.Service.Bill;
@@ -14,6 +15,12 @@ namespace Prometheus.API.Controllers
         public BillController(IBillService _billService)
         {
             billService = _billService;
+        }
+
+        [HttpGet("GetBillsForUser/{id}")]
+        public General<BillViewModel> GetBillsForUser(int id)
+        {
+            return billService.GetBillsForUser(id);
         }
 
         [HttpGet("{id}")]
