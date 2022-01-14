@@ -55,7 +55,6 @@ function Register() {
 
     const handleSelectChange = (e) => {
 
-        console.log(e.target.value);
         setApartmentId(e.target.value);
     }
 

@@ -164,6 +164,7 @@ namespace Prometheus.API.Controllers
                         model.Password = user.Password;
                         model.Tc = user.Tc;
                         model.PlateNo = user.PlateNo;
+                        model.IsAdmin = user.IsAdmin;
                         model.ApartmentId = user.ApartmentId;
                         model.Udate = DateTime.Now;
 

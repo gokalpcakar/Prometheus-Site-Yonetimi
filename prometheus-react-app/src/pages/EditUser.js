@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { useParams, Navigate, Link } from 'react-router-dom'
+import axios from 'axios'
 
-function EditProfile() {
+function EditUser() {
+
+    const params = useParams()
 
     const [id, setId] = useState('')
     const [name, setName] = useState('')
@@ -11,13 +14,16 @@ function EditProfile() {
     const [password, setPassword] = useState('')
     const [tc, setTc] = useState('')
     const [plateNo, setPlateNo] = useState('')
-    const [isAdmin, setIsAdmin] = useState('')
-    const [apartmentId, setApartmentId] = useState('')
-    const [redirect, setRedirect] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    const [apartments, setApartments] = useState([])
+    const [apartmentId, setApartmentId] = useState([])
+
+    const [redirect, setRedirect] = useState()
 
     useEffect(() => {
 
-        const baseURL = 'https://localhost:5001/api/User/LoggedUser';
+        const baseURL = `https://localhost:5001/api/User/${params.id}`;
 
         (
             async () => {
@@ -33,19 +39,41 @@ function EditProfile() {
 
                 const content = await response.json()
 
-                setId(content.id)
-                setName(content.name)
-                setSurname(content.surname)
-                setEmail(content.email)
-                setPhone(content.phone)
-                setPassword(content.password)
-                setTc(content.tc)
-                setPlateNo(content.plateNo)
-                setIsAdmin(content.isAdmin)
-                setApartmentId(content.apartmentId)
+                setId(content.entity.id)
+                setName(content.entity.name)
+                setSurname(content.entity.surname)
+                setEmail(content.entity.email)
+                setPhone(content.entity.phone)
+                setPassword(content.entity.password)
+                setTc(content.entity.tc)
+                setPlateNo(content.entity.plateNo)
+                setIsAdmin(content.entity.isAdmin)
+                setApartmentId(content.entity.apartmentId)
             }
         )();
+    }, [params.id])
+
+    useEffect(() => {
+
+        axios.get('https://localhost:5001/api/Apartment')
+            .then(response => {
+
+                setApartments(response.data.list)
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }, [])
+
+    const handleApartmentChange = (e) => {
+
+        setApartmentId(e.target.value);
+    }
+
+    const handleAdminChange = (e) => {
+
+        setIsAdmin(e.target.value);
+    }
 
     const submitEvent = async (e) => {
 
@@ -76,7 +104,7 @@ function EditProfile() {
 
     if (redirect) {
 
-        return <Navigate to={"/myprofile"} />
+        return <Navigate to={"/getallusers"} />
     }
 
     return (
@@ -86,7 +114,7 @@ function EditProfile() {
                     <div className="card shadow-2-strong" style={{ borderRadius: "1rem" }}>
                         <div className="card-body p-5 text-center">
                             <form onSubmit={submitEvent}>
-                                <h1 className="h3 mb-3 fw-normal">Profil Güncelleme</h1>
+                                <h1 className="h3 mb-3 fw-normal">Kullanıcı Düzenleme</h1>
 
                                 <div className="d-none">
                                     <input
@@ -169,16 +197,44 @@ function EditProfile() {
                                     />
                                 </div>
 
-                                <div className="d-none">
-                                    <input
-                                        defaultValue={isAdmin}
-                                    />
+                                <div className='mb-3'>
+                                    <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        onChange={handleAdminChange}
+                                    >
+                                        <option value={isAdmin}>
+                                            Kullanıcı tipini Seçiniz...
+                                        </option>
+                                        <option value={true}>
+                                            Admin
+                                        </option>
+                                        <option value={false}>
+                                            Kullanıcı
+                                        </option>
+                                    </select>
                                 </div>
 
-                                <div className="d-none">
-                                    <input
-                                        defaultValue={apartmentId}
-                                    />
+                                <div className='mb-3'>
+                                    <select
+                                        className="form-select"
+                                        aria-label="Default select example"
+                                        onChange={handleApartmentChange}
+                                    >
+                                        <option defaultValue={apartmentId}>
+                                            Daireyi Seçiniz...
+                                        </option>
+                                        {apartments && apartments.map((apartment) => {
+                                            return (
+                                                <option key={apartment.id} value={apartment.id}>
+                                                    {apartment.blockName} blok,
+                                                    Tipi: {apartment.apartmentType},
+                                                    No: {apartment.apartmentNo},
+                                                    Kat: {apartment.apartmentFloor}
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
                                 </div>
 
                                 <Link to="/login" className="text-center">
@@ -194,4 +250,4 @@ function EditProfile() {
     )
 }
 
-export default EditProfile
+export default EditUser

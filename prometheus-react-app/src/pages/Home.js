@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Home({name}) {
+function Home({ name }) {
 
     return (
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 function GetAllUsers() {
@@ -10,13 +11,36 @@ function GetAllUsers() {
         axios.get(`https://localhost:5001/api/User`)
             .then(response => {
 
-                console.log(response.data);
                 setUsers(response.data.list)
             })
             .catch(err => {
                 console.log(err);
             });
     }, [])
+
+    const deleteHandler = async (id) => {
+
+        const baseURL = `https://localhost:5001/api/User/${id}`;
+
+        await fetch(baseURL, {
+
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+    }
+
+    // const deleteHandler = async (id) => {
+
+    //     const baseURL = `https://localhost:5001/api/User/${id}`;
+
+    //     await fetch(baseURL, {
+
+    //         method: 'DELETE',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         credentials: 'include'
+    //     });
+    // }
 
     return (
         <div className='container pt-5'>
@@ -25,24 +49,39 @@ function GetAllUsers() {
                     <table className="table table-dark table-striped">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Surname</th>
+                                <th>Ad-Soyad</th>
                                 <th>E-Posta</th>
                                 <th>Telefon Numarası</th>
                                 <th>TC Kimlik Numarası</th>
                                 <th>Plaka Numarası</th>
+                                <th className='text-center'>Detay</th>
+                                <th className='text-center'>Sil</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users && users.map((user) => {
                                 return (
                                     <tr key={user.id}>
-                                        <td>{user.name}</td>
-                                        <td>{user.surname}</td>
+                                        <td>{user.name} {user.surname}</td>
                                         <td>{user.email}</td>
                                         <td>{user.phone}</td>
                                         <td>{user.tc}</td>
                                         <td>{user.plateNo}</td>
+                                        <td className='text-center'>
+                                            <Link to={`/userdetail/${user.id}`}
+                                                className="btn btn-primary">
+                                                Detay
+                                            </Link>
+                                        </td>
+                                        <td className='text-center'>
+                                            <Link
+                                                to='/'
+                                                className='btn btn-danger'
+                                                onClick={() => deleteHandler(user.id)}
+                                            >
+                                                Sil
+                                            </Link>
+                                        </td>
                                     </tr>
                                 );
                             })}

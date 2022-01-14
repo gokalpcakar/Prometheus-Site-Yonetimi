@@ -108,7 +108,7 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        public General<UserViewModel> UpdateUser(UpdateUserViewModel user)
+        public General<UserViewModel> UpdateUser(UpdateUserViewModel user , int id)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 
@@ -116,7 +116,7 @@ namespace Prometheus.Service.User
             {
                 using (var context = new PrometheusContext())
                 {
-                    var model = context.User.SingleOrDefault(i => i.Id == user.Id);
+                    var model = context.User.SingleOrDefault(i => i.Id == id);
 
                     if (model is not null)
                     {

@@ -10,6 +10,8 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GetAllUsers from './pages/GetAllUsers';
+import UserDetail from './pages/UserDetail';
+import EditUser from './pages/EditUser';
 
 function App() {
 
@@ -24,7 +26,8 @@ function App() {
     phone: "",
     password: "",
     tc: "",
-    plateNo: ""
+    plateNo: "",
+    isAdmin: false
   })
 
   useEffect(() => {
@@ -54,7 +57,8 @@ function App() {
           phone: content.phone,
           password: content.password,
           tc: content.tc,
-          plateNo: content.plateNo
+          plateNo: content.plateNo,
+          isAdmin: content.isAdmin
         })
       }
     )();
@@ -63,7 +67,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav name={name} setName={setName} />
+        <Nav name={name} setName={setName} isAdmin={user.isAdmin} />
         <main>
           <Routes>
             <Route path="/" exact element={<Home name={name} />} />
@@ -73,7 +77,9 @@ function App() {
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/getbillsforuser" element={<GetBillsForUser user={user} />} />
             <Route path="/payment" element={<BillPayment />} />
-            <Route path="/getallusers" element={<GetAllUsers />} />
+            <Route path="/getallusers" element={<GetAllUsers user={user} />} />
+            <Route path="/userdetail/:id" element={<UserDetail />} />
+            <Route path="/edituser/:id" element={<EditUser />} />
           </Routes>
         </main>
       </BrowserRouter>

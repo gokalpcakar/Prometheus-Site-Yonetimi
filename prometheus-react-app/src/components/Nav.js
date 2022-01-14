@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 
-function Nav({ name, setName }) {
+function Nav({ name, setName, isAdmin }) {
 
     const logoutHandler = async () => {
 
@@ -61,10 +61,15 @@ function Nav({ name, setName }) {
                                                     className="dropdown-item">
                                                     Profilim
                                                 </Link>
-                                                <Link to="/getallusers"
-                                                    className="dropdown-item">
-                                                    Kullanıcıları Listele
-                                                </Link>
+                                                {
+                                                    isAdmin ?
+                                                        <Link to="/getallusers"
+                                                            className="dropdown-item">
+                                                            Kullanıcılar
+                                                        </Link>
+                                                        :
+                                                        null
+                                                }
                                                 <Link to="/getbillsforuser"
                                                     className="dropdown-item">
                                                     Faturalarım
