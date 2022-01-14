@@ -17,6 +17,18 @@ namespace Prometheus.API.Controllers
             billService = _billService;
         }
 
+        [HttpGet("GetUnpaidBillsForUser/{id}")]
+        public General<BillViewModel> GetUnpaidBillsForUser(int id)
+        {
+            return billService.GetUnpaidBillsForUser(id);
+        }
+
+        [HttpGet("GetPaidBillsForUser/{id}")]
+        public General<BillViewModel> GetPaidBillsForUser(int id)
+        {
+            return billService.GetPaidBillsForUser(id);
+        }
+
         [HttpGet("GetBillsForUser/{id}")]
         public General<BillViewModel> GetBillsForUser(int id)
         {

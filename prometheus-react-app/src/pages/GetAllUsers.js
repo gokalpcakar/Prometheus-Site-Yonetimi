@@ -16,7 +16,7 @@ function GetAllUsers() {
             .catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [users])
 
     const deleteHandler = async (id) => {
 
@@ -28,19 +28,16 @@ function GetAllUsers() {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         });
+
+        axios.get(`https://localhost:5001/api/User`)
+            .then(response => {
+
+                setUsers(response.data.list)
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
-
-    // const deleteHandler = async (id) => {
-
-    //     const baseURL = `https://localhost:5001/api/User/${id}`;
-
-    //     await fetch(baseURL, {
-
-    //         method: 'DELETE',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         credentials: 'include'
-    //     });
-    // }
 
     return (
         <div className='container pt-5'>
@@ -74,13 +71,13 @@ function GetAllUsers() {
                                             </Link>
                                         </td>
                                         <td className='text-center'>
-                                            <Link
-                                                to='/'
+                                            <button
+                                                type='button'
                                                 className='btn btn-danger'
                                                 onClick={() => deleteHandler(user.id)}
                                             >
                                                 Sil
-                                            </Link>
+                                            </button>
                                         </td>
                                     </tr>
                                 );

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import axios from 'axios'
 
-function GetBillsForUser({ user }) {
+function PaidBills({ user }) {
 
     const [bills, setBills] = useState([])
 
     useEffect(() => {
 
-        axios.get(`https://localhost:5001/api/Bill/GetUnpaidBillsForUser/${user.id}`)
+        axios.get(`https://localhost:5001/api/Bill/GetPaidBillsForUser/${user.id}`)
             .then(response => {
 
                 setBills(response.data.list)
@@ -25,13 +25,10 @@ function GetBillsForUser({ user }) {
                 <div className='row'>
                     <div className='col-10 offset-1 p-3 border rounded'>
                         <h4 className='mb-4 text-primary'>Faturalarım</h4>
-                        <Link to="/paidbills">
-                            Ödenmiş faturalarım
-                        </Link>
                         {
                             bills.length < 1 ?
-                                <div className="alert alert-success mt-4" role="alert">
-                                    <b>Borcunuz bulunmamaktadır.</b>
+                                <div className="alert alert-danger" role="alert">
+                                    <b>Ödenmiş faturanız bulunmamaktadır.</b>
                                 </div>
                                 :
                                 null
@@ -41,7 +38,7 @@ function GetBillsForUser({ user }) {
                                 bills.map((bill, index) => {
 
                                     return (
-                                        <div key={index} className="card w-100 my-4">
+                                        <div key={index} className="card w-100 mb-4">
                                             <div className="card-body">
                                                 <h5 className="card-title">
                                                     {moment(bill.idate).format("DD.MM.YYYY")} tarihli fatura
@@ -58,11 +55,6 @@ function GetBillsForUser({ user }) {
                                                     Tutar: {bill.price}₺
                                                 </li>
                                             </ul>
-                                            <div className="card-body text-center">
-                                                <Link to="/payment" className="btn btn-lg btn-primary">
-                                                    Faturayı Öde
-                                                </Link>
-                                            </div>
                                         </div>
                                     );
                                 }) :
@@ -75,4 +67,4 @@ function GetBillsForUser({ user }) {
     )
 }
 
-export default GetBillsForUser
+export default PaidBills

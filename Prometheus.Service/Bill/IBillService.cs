@@ -5,6 +5,8 @@ namespace Prometheus.Service.Bill
 {
     public interface IBillService
     {
+        public General<BillViewModel> GetUnpaidBillsForUser(int id);
+        public General<BillViewModel> GetPaidBillsForUser(int id);
         public General<BillViewModel> GetBillsForUser(int id);
         public General<BillViewModel> GetById(int id);
         public General<BillViewModel> GetAllBills();

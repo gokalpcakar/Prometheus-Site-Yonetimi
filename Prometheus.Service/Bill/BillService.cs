@@ -44,6 +44,64 @@ namespace Prometheus.Service.Bill
 
             return result;
         }
+        public General<BillViewModel> GetUnpaidBillsForUser(int id)
+        {
+            var result = new General<BillViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.Bill.Where(i => i.UserId == id && !i.IsPaid && !i.IsDeleted);
+
+                    if (model is not null)
+                    {
+                        result.List = mapper.Map<List<BillViewModel>>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Faturalar başarıyla getirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu. Tekrar deneyiniz.";
+            }
+
+            return result;
+        }
+        public General<BillViewModel> GetPaidBillsForUser(int id)
+        {
+            var result = new General<BillViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.Bill.Where(i => i.UserId == id && i.IsPaid && !i.IsDeleted);
+
+                    if (model is not null)
+                    {
+                        result.List = mapper.Map<List<BillViewModel>>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Faturalar başarıyla getirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu. Tekrar deneyiniz.";
+            }
+
+            return result;
+        }
         public General<BillViewModel> GetById(int id)
         {
             var result = new General<BillViewModel>() { IsSuccess = false };

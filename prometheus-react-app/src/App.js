@@ -12,6 +12,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GetAllUsers from './pages/GetAllUsers';
 import UserDetail from './pages/UserDetail';
 import EditUser from './pages/EditUser';
+import AddBill from './pages/AddBill';
+import PaidBills from './pages/PaidBills';
 
 function App() {
 
@@ -76,10 +78,12 @@ function App() {
             <Route path="/myprofile" element={<MyProfile user={user} />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/getbillsforuser" element={<GetBillsForUser user={user} />} />
+            <Route path="/paidbills" element={<PaidBills user={user} />} />
             <Route path="/payment" element={<BillPayment />} />
             <Route path="/getallusers" element={<GetAllUsers user={user} />} />
             <Route path="/userdetail/:id" element={<UserDetail />} />
             <Route path="/edituser/:id" element={<EditUser />} />
+            <Route path="/addbill/:id" element={<AddBill />} />
           </Routes>
         </main>
       </BrowserRouter>
