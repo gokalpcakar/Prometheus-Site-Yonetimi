@@ -11,8 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Prometheus.API.Helpers;
 using Prometheus.API.Infrastructure;
+using Prometheus.DB.Database;
 using Prometheus.Service.Apartment;
 using Prometheus.Service.Bill;
+using Prometheus.Service.CreditCard;
 using Prometheus.Service.User;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,10 +94,17 @@ namespace Prometheus.API
 
             services.AddCors();
 
+            // allows us injection of idbclient 
+            services.AddSingleton<IDbClient, DbClient>();
+
+            // mongodb configuration
+            services.Configure<CreditCardDbConfig>(Configuration);
+
             // configure application services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBillService, BillService>();
             services.AddTransient<IApartmentService, ApartmentService>();
+            services.AddTransient<ICreditCardService, CreditCardService>();
 
             // adding service for json web token
             services.AddScoped<JwtService>();
