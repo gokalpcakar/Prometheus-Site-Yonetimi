@@ -15,6 +15,8 @@ import AddBill from './pages/AddBill';
 import PaidBills from './pages/PaidBills';
 import AddCreditCard from './pages/AddCreditCard';
 import GetAllApartments from './pages/GetAllApartments';
+import MyMessages from './pages/MyMessages';
+import AddMessage from './pages/AddMessage';
 
 function App() {
 
@@ -86,6 +88,8 @@ function App() {
             <Route path="/addbill/:id" element={<AddBill />} />
             <Route path="/addcreditcard/:id" element={<AddCreditCard />} />
             <Route path="/getallapartments" element={<GetAllApartments />} />
+            <Route path="/mymessages" element={<MyMessages user={user} />} />
+            <Route path="/addmessage" element={<AddMessage user={user} />} />
           </Routes>
         </main>
       </BrowserRouter>

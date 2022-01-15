@@ -72,6 +72,31 @@ namespace Prometheus.Service.User
 
             return result;
         }
+        public General<UserViewModel> GetAdminUsers()
+        {
+            var result = new General<UserViewModel>() { IsSuccess = false };
+
+            using (var context = new PrometheusContext())
+            {
+                var data = context.User
+                                    .Where(x => x.IsAdmin && x.IsActive && !x.IsDeleted)
+                                    .OrderBy(x => x.Id);
+
+                // if we have user then we can list them otherwise we get exception message
+                if (data.Any())
+                {
+                    result.List = mapper.Map<List<UserViewModel>>(data);
+                    result.IsSuccess = true;
+                    result.SuccessfulMessage = "Kullanıcılar başarıyla getirilmiştir.";
+                }
+                else
+                {
+                    result.ExceptionMessage = "Hiçbir kullanıcı bulunamadı.";
+                }
+            }
+
+            return result;
+        }
         public General<ApartmentUserViewModel> GetApartmentUser(int id)
         {
             var result = new General<ApartmentUserViewModel>() { IsSuccess = false };

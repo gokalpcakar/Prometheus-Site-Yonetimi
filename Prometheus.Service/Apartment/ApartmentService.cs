@@ -104,7 +104,6 @@ namespace Prometheus.Service.Apartment
         }
         public General<ApartmentViewModel> AddApartment(ApartmentViewModel newApartment)
         {
-
             var result = new General<ApartmentViewModel>() { IsSuccess = false };
 
             try

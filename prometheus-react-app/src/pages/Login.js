@@ -17,10 +17,7 @@ function Login({ setName, setUser }) {
         const response = await fetch(baseURL, {
 
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({
                 email,

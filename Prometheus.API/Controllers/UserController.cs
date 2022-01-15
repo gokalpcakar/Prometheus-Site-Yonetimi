@@ -137,6 +137,13 @@ namespace Prometheus.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("AdminUsers")]
+        public General<UserViewModel> GetAdminUsers()
+        {
+            return userService.GetAdminUsers();
+        }
+
+        [AllowAnonymous]
         [HttpGet("ApartmentUsers")]
         public ActionResult GetApartmentUsers()
         {
@@ -167,6 +174,7 @@ namespace Prometheus.API.Controllers
             }
         }
 
+        // joining user and apartment tables for getting a user by id
         [AllowAnonymous]
         [HttpGet("ApartmentUser/{id}")]
         public ActionResult GetApartmentUser(int id)

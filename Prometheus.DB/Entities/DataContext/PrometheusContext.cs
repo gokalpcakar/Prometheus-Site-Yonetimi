@@ -9,6 +9,7 @@ namespace Prometheus.DB.Entities.DataContext
 {
     public partial class PrometheusContext : DbContext
     {
+        // Scaffold-DbContext "Server=.;Database=Prometheus;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -Contextdir Entities/DataContext -Context PrometheusContext -Project Prometheus.DB -StartUpProject Prometheus.DB -NoPluralize -Force
         public PrometheusContext()
         {
         }
@@ -21,6 +22,7 @@ namespace Prometheus.DB.Entities.DataContext
         public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<Apartment> Apartment { get; set; }
         public virtual DbSet<Bill> Bill { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -121,9 +123,45 @@ namespace Prometheus.DB.Entities.DataContext
                     .HasConstraintName("FK_Bill_User");
             });
 
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.Property(e => e.Idate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("IDate")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsNewMessage)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.MessageContent)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.ReceiverName)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.ReceiverSurname)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.SenderName)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.SenderSurname)
+                    .IsRequired()
+                    .HasMaxLength(30);
+
+                entity.Property(e => e.Udate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("UDate");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.CreditCardId).HasMaxLength(16);
+                entity.Property(e => e.CreditCardId).HasMaxLength(50);
 
                 entity.Property(e => e.Email)
                     .IsRequired()

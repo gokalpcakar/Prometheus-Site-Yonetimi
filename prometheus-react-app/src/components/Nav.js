@@ -61,6 +61,10 @@ function Nav({ name, setName, isAdmin }) {
                                                     className="dropdown-item">
                                                     Profilim
                                                 </Link>
+                                                <Link to="/mymessages"
+                                                    className="dropdown-item">
+                                                    Mesajlarım
+                                                </Link>
                                                 {
                                                     isAdmin ?
                                                         <Link to="/getallusers"

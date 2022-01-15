@@ -2,6 +2,7 @@
 using Prometheus.DB.Entities;
 using Prometheus.Model.Apartment;
 using Prometheus.Model.Bill;
+using Prometheus.Model.Message;
 using Prometheus.Model.User;
 
 namespace Prometheus.API.Infrastructure
@@ -12,7 +13,7 @@ namespace Prometheus.API.Infrastructure
         public MappingProfile()
         {
             CreateMap<User, UserViewModel>();
-            CreateMap<UserViewModel, User>(); 
+            CreateMap<UserViewModel, User>();
 
             CreateMap<User, AddUserViewModel>();
             CreateMap<AddUserViewModel, User>();
@@ -24,8 +25,14 @@ namespace Prometheus.API.Infrastructure
             CreateMap<AddBillViewModel, Bill>();
 
             CreateMap<Apartment, ApartmentViewModel>();
-            CreateMap<ApartmentViewModel, Apartment>(); 
-            
+            CreateMap<ApartmentViewModel, Apartment>();
+
+            CreateMap<Message, MessageViewModel>();
+            CreateMap<MessageViewModel, Message>();
+
+            CreateMap<Message, AddMessageViewModel>();
+            CreateMap<AddMessageViewModel, Message>();
+
             //CreateMap<User, ApartmentUserViewModel>();
         }
     }
