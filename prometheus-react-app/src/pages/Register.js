@@ -18,7 +18,8 @@ function Register() {
 
     useEffect(() => {
 
-        axios.get('https://localhost:5001/api/Apartment')
+        // new user only see empty apartments
+        axios.get('https://localhost:5001/api/Apartment/EmptyApartments')
             .then(response => {
 
                 setApartments(response.data.list)

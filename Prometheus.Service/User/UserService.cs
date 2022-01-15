@@ -72,6 +72,30 @@ namespace Prometheus.Service.User
 
             return result;
         }
+        public General<ApartmentUserViewModel> GetApartmentUser(int id)
+        {
+            var result = new General<ApartmentUserViewModel>() { IsSuccess = false };
+
+            using (var context = new PrometheusContext())
+            {
+                var data = context.User
+                                    .SingleOrDefault(x => x.ApartmentId == id && x.IsActive && !x.IsDeleted);
+
+                // if we have user then we can list them otherwise we get exception message
+                if (data is not null)
+                {
+                    result.Entity = mapper.Map<ApartmentUserViewModel>(data);
+                    result.IsSuccess = true;
+                    result.SuccessfulMessage = "Kullanıcılar başarıyla getirilmiştir.";
+                }
+                else
+                {
+                    result.ExceptionMessage = "Hiçbir kullanıcı bulunamadı.";
+                }
+            }
+
+            return result;
+        }
 
         public General<UserViewModel> Register(AddUserViewModel newUser)
         {
@@ -83,11 +107,17 @@ namespace Prometheus.Service.User
 
                 using (var context = new PrometheusContext())
                 {
+                    var apartmentModel = context.Apartment.SingleOrDefault(x => x.Id == newUser.ApartmentId);
+
                     // if model is not null then we can add user to database
                     if (model is not null)
                     {
                         model.Idate = DateTime.Now;
                         context.User.Add(model);
+
+                        // i changed isFull to true during register
+                        // every user have to add apartment when they are register
+                        apartmentModel.IsFull = true;
                         context.SaveChanges();
 
                         result.Entity = mapper.Map<UserViewModel>(model);
@@ -145,47 +175,47 @@ namespace Prometheus.Service.User
 
         //public General<UserViewModel> UpdateUser(UpdateUserViewModel user)
         //{
-//        var result = new General<UserViewModel>() { IsSuccess = false };
+        //        var result = new General<UserViewModel>() { IsSuccess = false };
 
-//                    try
-//                    {
-//                        using (var context = new PrometheusContext())
-//                        {
-//                            var model = context.User.SingleOrDefault(i => i.Id == user.Id);
+        //                    try
+        //                    {
+        //                        using (var context = new PrometheusContext())
+        //                        {
+        //                            var model = context.User.SingleOrDefault(i => i.Id == user.Id);
 
-//                            if (model is not null)
-//                            {
-//                                model.Name = user.Name;
-//                                model.Surname = user.Surname;
-//                                model.Email = user.Email;
-//                                model.Phone = user.Phone;
-//                                model.Password = user.Password;
-//                                model.Tc = user.Tc;
-//                                model.PlateNo = user.PlateNo;
-//                                model.ApartmentId = user.ApartmentId;
-//                                model.Udate = DateTime.Now;
+        //                            if (model is not null)
+        //                            {
+        //                                model.Name = user.Name;
+        //                                model.Surname = user.Surname;
+        //                                model.Email = user.Email;
+        //                                model.Phone = user.Phone;
+        //                                model.Password = user.Password;
+        //                                model.Tc = user.Tc;
+        //                                model.PlateNo = user.PlateNo;
+        //                                model.ApartmentId = user.ApartmentId;
+        //                                model.Udate = DateTime.Now;
 
-//                                context.SaveChanges();
+        //                                context.SaveChanges();
 
-//                                result.Entity = mapper.Map<UserViewModel>(model);
-//                                result.IsSuccess = true;
-//                                result.SuccessfulMessage = "Kullanıcılar başarıyla güncellenmiştir.";
-//                            }
-//                            else
-//                            {
-//                                result.ExceptionMessage = "Lütfen tekrardan deneyiniz.";
-//                            }
-//                        }
-//                    }
-//                    catch
-//{
-//    result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
-//}
+        //                                result.Entity = mapper.Map<UserViewModel>(model);
+        //                                result.IsSuccess = true;
+        //                                result.SuccessfulMessage = "Kullanıcılar başarıyla güncellenmiştir.";
+        //                            }
+        //                            else
+        //                            {
+        //                                result.ExceptionMessage = "Lütfen tekrardan deneyiniz.";
+        //                            }
+        //                        }
+        //                    }
+        //                    catch
+        //{
+        //    result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+        //}
 
-//return result;
-//}
+        //return result;
+        //}
 
-public General<UserViewModel> DeleteUser(int id)
+        public General<UserViewModel> DeleteUser(int id)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 

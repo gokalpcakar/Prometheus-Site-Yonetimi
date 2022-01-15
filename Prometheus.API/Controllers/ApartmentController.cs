@@ -22,9 +22,21 @@ namespace Prometheus.API.Controllers
             return apartmentService.GetById(id);
         }
         [HttpGet]
-        public General<ApartmentViewModel> GetApartments()
+        public General<ApartmentViewModel> GetAllApartments()
         {
-            return apartmentService.GetApartments();
+            return apartmentService.GetAllApartments();
+        }
+        [Route("FullApartments")]
+        [HttpGet]
+        public General<ApartmentViewModel> GetFullApartments()
+        {
+            return apartmentService.GetFullApartments();
+        }
+        [Route("EmptyApartments")]
+        [HttpGet]
+        public General<ApartmentViewModel> GetEmptyApartments()
+        {
+            return apartmentService.GetEmptyApartments();
         }
         [HttpPost]
         public General<ApartmentViewModel> AddApartment(ApartmentViewModel newApartment)
@@ -35,6 +47,11 @@ namespace Prometheus.API.Controllers
         public General<ApartmentViewModel> UpdateApartment(UpdateApartmentViewModel apartment)
         {
             return apartmentService.UpdateApartment(apartment);
+        }
+        [HttpDelete("{id}")]
+        public General<ApartmentViewModel> DeleteApartment(int id)
+        {
+            return apartmentService.DeleteApartment(id);
         }
     }
 }

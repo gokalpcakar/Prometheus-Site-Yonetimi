@@ -9,6 +9,7 @@ namespace Prometheus.DB.Entities.DataContext
 {
     public partial class GrootContext : DbContext
     {
+        // Scaffold-DbContext "Server=.;Database=Prometheus;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -Contextdir Entities/DataContext -Context GrootContext -Project Prometheus.DB -StartUpProject Prometheus.DB -NoPluralize -Force
         public GrootContext()
         {
         }
@@ -21,6 +22,7 @@ namespace Prometheus.DB.Entities.DataContext
         public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<Apartment> Apartment { get; set; }
         public virtual DbSet<Bill> Bill { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -119,6 +121,19 @@ namespace Prometheus.DB.Entities.DataContext
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Bill_User");
+            });
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.IsNewMessage)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.MessageContent)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<User>(entity =>

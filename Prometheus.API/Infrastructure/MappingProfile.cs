@@ -24,7 +24,9 @@ namespace Prometheus.API.Infrastructure
             CreateMap<AddBillViewModel, Bill>();
 
             CreateMap<Apartment, ApartmentViewModel>();
-            CreateMap<ApartmentViewModel, Apartment>();
+            CreateMap<ApartmentViewModel, Apartment>(); 
+            
+            //CreateMap<User, ApartmentUserViewModel>();
         }
     }
 }

@@ -18,7 +18,7 @@ function GetBillsForUser({ user }) {
             .catch(err => {
                 console.log(err);
             });
-    }, [user])
+    }, [bills])
 
     useEffect(() => {
 
@@ -34,7 +34,8 @@ function GetBillsForUser({ user }) {
 
     const billHandler = async (id) => {
   
-        
+        console.log(id);
+
         const baseURL = `https://localhost:5001/api/Bill/${id}`;
 
         await fetch(baseURL, {

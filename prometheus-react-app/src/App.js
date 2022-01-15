@@ -5,7 +5,6 @@ import Register from './pages/Register';
 import MyProfile from './pages/MyProfile';
 import EditProfile from './pages/EditProfile';
 import GetBillsForUser from './pages/GetBillsForUser';
-import BillPayment from './pages/BillPayment';
 import './App.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,6 +14,7 @@ import EditUser from './pages/EditUser';
 import AddBill from './pages/AddBill';
 import PaidBills from './pages/PaidBills';
 import AddCreditCard from './pages/AddCreditCard';
+import GetAllApartments from './pages/GetAllApartments';
 
 function App() {
 
@@ -80,12 +80,12 @@ function App() {
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/getbillsforuser" element={<GetBillsForUser user={user} />} />
             <Route path="/paidbills" element={<PaidBills user={user} />} />
-            <Route path="/payment/:id" element={<BillPayment />} />
             <Route path="/getallusers" element={<GetAllUsers user={user} />} />
             <Route path="/userdetail/:id" element={<UserDetail />} />
             <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/addbill/:id" element={<AddBill />} />
             <Route path="/addcreditcard/:id" element={<AddCreditCard />} />
+            <Route path="/getallapartments" element={<GetAllApartments />} />
           </Routes>
         </main>
       </BrowserRouter>

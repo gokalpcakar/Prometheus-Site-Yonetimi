@@ -70,6 +70,15 @@ function Nav({ name, setName, isAdmin }) {
                                                         :
                                                         null
                                                 }
+                                                {
+                                                    isAdmin ?
+                                                        <Link to="/getallapartments"
+                                                            className="dropdown-item">
+                                                            Konutlar
+                                                        </Link>
+                                                        :
+                                                        null
+                                                }
                                                 <Link to="/getbillsforuser"
                                                     className="dropdown-item">
                                                     Faturalarım

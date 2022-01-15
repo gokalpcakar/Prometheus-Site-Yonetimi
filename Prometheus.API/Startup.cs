@@ -15,6 +15,7 @@ using Prometheus.DB.Database;
 using Prometheus.Service.Apartment;
 using Prometheus.Service.Bill;
 using Prometheus.Service.CreditCard;
+using Prometheus.Service.Message;
 using Prometheus.Service.User;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,6 +106,7 @@ namespace Prometheus.API
             services.AddTransient<IBillService, BillService>();
             services.AddTransient<IApartmentService, ApartmentService>();
             services.AddTransient<ICreditCardService, CreditCardService>();
+            services.AddTransient<IMessageService, MessageService>();
 
             // adding service for json web token
             services.AddScoped<JwtService>();

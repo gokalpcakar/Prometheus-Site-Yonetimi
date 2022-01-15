@@ -36,13 +36,57 @@ namespace Prometheus.Service.Apartment
 
             return result;
         }
-        public General<ApartmentViewModel> GetApartments()
+        public General<ApartmentViewModel> GetAllApartments()
         {
             var result = new General<ApartmentViewModel>() { IsSuccess = false };
 
             using (var context = new PrometheusContext())
             {
                 var model = context.Apartment.OrderBy(i => i.Id);
+
+                if (model is not null)
+                {
+                    result.List = mapper.Map<List<ApartmentViewModel>>(model);
+                    result.IsSuccess = true;
+                    result.SuccessfulMessage = "Konutlar başarıyla getirildi.";
+                }
+                else
+                {
+                    result.ExceptionMessage = "Lütfen tekrar giriniz.";
+                }
+            }
+
+            return result;
+        }
+        public General<ApartmentViewModel> GetFullApartments()
+        {
+            var result = new General<ApartmentViewModel>() { IsSuccess = false };
+
+            using (var context = new PrometheusContext())
+            {
+                var model = context.Apartment.Where(i => i.IsFull).OrderBy(i => i.Id);
+
+                if (model is not null)
+                {
+                    result.List = mapper.Map<List<ApartmentViewModel>>(model);
+                    result.IsSuccess = true;
+                    result.SuccessfulMessage = "Konutlar başarıyla getirildi.";
+                }
+                else
+                {
+                    result.ExceptionMessage = "Lütfen tekrar giriniz.";
+                }
+            }
+
+            return result;
+        }
+        public General<ApartmentViewModel> GetEmptyApartments()
+        {
+            var result = new General<ApartmentViewModel>() { IsSuccess = false };
+
+            using (var context = new PrometheusContext())
+            {
+                var model = context.Apartment.Where(i => !i.IsFull).OrderBy(i => i.Id);
 
                 if (model is not null)
                 {
@@ -124,6 +168,38 @@ namespace Prometheus.Service.Apartment
             catch
             {
                 result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+            }
+
+            return result;
+        }
+        public General<ApartmentViewModel> DeleteApartment(int id)
+        {
+            var result = new General<ApartmentViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.Apartment.SingleOrDefault(i => i.Id == id);
+
+                    if (model is not null)
+                    {
+                        model.IsDeleted = false;
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<ApartmentViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Konut silme işlemi başarıyla gerçekleştirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu";
             }
 
             return result;

@@ -27,7 +27,7 @@ function MyProfile() {
                 });
 
                 const content = await response.json()
-                console.log(content);
+                
                 setName(content.name)
                 setSurname(content.surname)
                 setEmail(content.email)

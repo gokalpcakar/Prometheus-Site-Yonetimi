@@ -19,6 +19,7 @@ namespace Prometheus.DB.Entities
         public string ApartmentType { get; set; }
         public int ApartmentNo { get; set; }
         public int ApartmentFloor { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Admin> Admin { get; set; }
         public virtual ICollection<User> User { get; set; }

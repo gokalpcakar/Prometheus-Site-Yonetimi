@@ -137,6 +137,68 @@ namespace Prometheus.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("ApartmentUsers")]
+        public ActionResult GetApartmentUsers()
+        {
+            using (var context = new PrometheusContext())
+            {
+                // joining two tables for listing apartments with user info
+                var query = from user in context.User
+                            join apartment in context.Apartment
+                            on user.ApartmentId equals apartment.Id
+                            where apartment.Id == user.ApartmentId && apartment.IsDeleted == false
+                            orderby apartment.Id
+                            select new ApartmentUserViewModel()
+                            {
+                                Id = user.Id,
+                                BlockName = apartment.BlockName,
+                                ApartmentFloor = apartment.ApartmentFloor,
+                                ApartmentNo = apartment.ApartmentNo,
+                                ApartmentType = apartment.ApartmentType,
+                                IsFull = apartment.IsFull,
+                                Name = user.Name,
+                                Surname = user.Surname,
+                                ApartmentId = apartment.Id,
+                            };
+
+                var list = query.ToList();
+
+                return Ok(list);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ApartmentUser/{id}")]
+        public ActionResult GetApartmentUser(int id)
+        {
+            using (var context = new PrometheusContext())
+            {
+
+                var query = from user in context.User
+                            join apartment in context.Apartment 
+                            on user.ApartmentId equals apartment.Id
+                            where apartment.Id == id
+                            orderby apartment.Id
+                            select new ApartmentUserViewModel()
+                            {
+                                Id = user.Id,
+                                BlockName = apartment.BlockName,
+                                ApartmentFloor = apartment.ApartmentFloor,
+                                ApartmentNo = apartment.ApartmentNo,
+                                ApartmentType = apartment.ApartmentType,
+                                IsFull = apartment.IsFull,
+                                Name = user.Name,
+                                Surname = user.Surname,
+                                ApartmentId = apartment.Id,
+                            };
+
+                var list = query.ToList();
+
+                return Ok(list);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public General<UserViewModel> Register([FromBody] AddUserViewModel newUser)
         {
