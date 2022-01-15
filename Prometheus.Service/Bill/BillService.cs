@@ -101,6 +101,38 @@ namespace Prometheus.Service.Bill
             }
 
             return result;
+        }        
+        public General<BillViewModel> PayBill(int id)
+        {
+            var result = new General<BillViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.Bill.SingleOrDefault(i => i.Id == id);
+
+                    if (model is not null)
+                    {
+                        model.IsPaid= true;
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<BillViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Ödeme işlemi başarıyla gerçekleştirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu";
+            }
+
+            return result;
         }
         public General<BillViewModel> GetById(int id)
         {

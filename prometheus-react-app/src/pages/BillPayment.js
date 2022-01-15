@@ -1,9 +1,11 @@
 import React from 'react'
 
 function BillPayment() {
+
     return (
+
         <div>
-            Payment
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error, hic.</p>
         </div>
     )
 }

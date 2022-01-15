@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Prometheus.DB.Entities;
 using Prometheus.Service.CreditCard;
 
@@ -31,7 +30,6 @@ namespace Prometheus.API.Controllers
         public IActionResult AddCreditCard(CreditCard creditCard)
         {
             creditCardService.AddCreditCard(creditCard);
-            //return Ok(creditCard);
             return CreatedAtRoute("GetCreditCard", new { id = creditCard.Id }, creditCard);
         }
 

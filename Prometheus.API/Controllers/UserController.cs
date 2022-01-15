@@ -50,7 +50,7 @@ namespace Prometheus.API.Controllers
                 var user = context.User.FirstOrDefault(
                     i => i.Email == loginUser.Email &&
                     i.Password == loginUser.Password &&
-                    i.IsActive && !i.IsDeleted);
+                    i.IsActive == true && !i.IsDeleted);
 
                 if (user is not null)
                 {
@@ -141,6 +141,14 @@ namespace Prometheus.API.Controllers
         public General<UserViewModel> Register([FromBody] AddUserViewModel newUser)
         {
             return userService.Register(newUser);
+        }
+
+        [AllowAnonymous]
+        [Route("UpdateCreditCard")]
+        [HttpPut]
+        public General<UserViewModel> UpdateCreditCard(CreditCardUserViewModel user)
+        {
+            return userService.UpdateCreditCard(user);
         }
 
         [AllowAnonymous]

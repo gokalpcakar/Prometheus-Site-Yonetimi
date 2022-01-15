@@ -12,6 +12,7 @@ namespace Prometheus.Model.User
         public string Tc { get; set; }
         public string PlateNo { get; set; }
         public bool IsAdmin { get; set; }
+        public string CreditCardId { get; set; }
         public int ApartmentId { get; set; }
     }
 }

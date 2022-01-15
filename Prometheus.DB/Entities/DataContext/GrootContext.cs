@@ -7,13 +7,13 @@ using Prometheus.DB.Entities;
 
 namespace Prometheus.DB.Entities.DataContext
 {
-    public partial class PrometheusContext : DbContext
+    public partial class GrootContext : DbContext
     {
-        public PrometheusContext()
+        public GrootContext()
         {
         }
 
-        public PrometheusContext(DbContextOptions<PrometheusContext> options)
+        public GrootContext(DbContextOptions<GrootContext> options)
             : base(options)
         {
         }
@@ -123,7 +123,7 @@ namespace Prometheus.DB.Entities.DataContext
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.CreditCardId).HasMaxLength(16);
+                entity.Property(e => e.CreditCardId).HasMaxLength(50);
 
                 entity.Property(e => e.Email)
                     .IsRequired()

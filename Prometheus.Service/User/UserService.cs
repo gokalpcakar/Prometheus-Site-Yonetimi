@@ -27,7 +27,7 @@ namespace Prometheus.Service.User
                                     .SingleOrDefault
                                     (
                                         i => i.Id == id &&
-                                        i.IsActive && !i.IsDeleted
+                                        i.IsActive == true && !i.IsDeleted
                                     );
 
                 // we are checking whether we have data or not
@@ -108,7 +108,7 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        public General<UserViewModel> UpdateUser(UpdateUserViewModel user , int id)
+        public General<UserViewModel> UpdateCreditCard(CreditCardUserViewModel user)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 
@@ -116,25 +116,18 @@ namespace Prometheus.Service.User
             {
                 using (var context = new PrometheusContext())
                 {
-                    var model = context.User.SingleOrDefault(i => i.Id == id);
+                    var model = context.User.SingleOrDefault(i => i.Id == user.Id);
 
                     if (model is not null)
                     {
-                        model.Name = user.Name;
-                        model.Surname = user.Surname;
-                        model.Email = user.Email;
-                        model.Phone = user.Phone;
-                        model.Password = user.Password;
-                        model.Tc = user.Tc;
-                        model.PlateNo = user.PlateNo;
-                        model.ApartmentId = user.ApartmentId;
+                        model.CreditCardId = user.CreditCardId;
                         model.Udate = DateTime.Now;
 
                         context.SaveChanges();
 
                         result.Entity = mapper.Map<UserViewModel>(model);
                         result.IsSuccess = true;
-                        result.SuccessfulMessage = "Kullanıcılar başarıyla güncellenmiştir.";
+                        result.SuccessfulMessage = "Kredi kartı başarıyla eklenmiştir.";
                     }
                     else
                     {
@@ -150,7 +143,49 @@ namespace Prometheus.Service.User
             return result;
         }
 
-        public General<UserViewModel> DeleteUser(int id)
+        //public General<UserViewModel> UpdateUser(UpdateUserViewModel user)
+        //{
+//        var result = new General<UserViewModel>() { IsSuccess = false };
+
+//                    try
+//                    {
+//                        using (var context = new PrometheusContext())
+//                        {
+//                            var model = context.User.SingleOrDefault(i => i.Id == user.Id);
+
+//                            if (model is not null)
+//                            {
+//                                model.Name = user.Name;
+//                                model.Surname = user.Surname;
+//                                model.Email = user.Email;
+//                                model.Phone = user.Phone;
+//                                model.Password = user.Password;
+//                                model.Tc = user.Tc;
+//                                model.PlateNo = user.PlateNo;
+//                                model.ApartmentId = user.ApartmentId;
+//                                model.Udate = DateTime.Now;
+
+//                                context.SaveChanges();
+
+//                                result.Entity = mapper.Map<UserViewModel>(model);
+//                                result.IsSuccess = true;
+//                                result.SuccessfulMessage = "Kullanıcılar başarıyla güncellenmiştir.";
+//                            }
+//                            else
+//                            {
+//                                result.ExceptionMessage = "Lütfen tekrardan deneyiniz.";
+//                            }
+//                        }
+//                    }
+//                    catch
+//{
+//    result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+//}
+
+//return result;
+//}
+
+public General<UserViewModel> DeleteUser(int id)
         {
             var result = new General<UserViewModel>() { IsSuccess = false };
 

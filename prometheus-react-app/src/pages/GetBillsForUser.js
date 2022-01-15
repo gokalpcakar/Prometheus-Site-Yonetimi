@@ -6,6 +6,7 @@ import axios from 'axios'
 function GetBillsForUser({ user }) {
 
     const [bills, setBills] = useState([])
+    const [creditCardId, setCreditCardId] = useState([])
 
     useEffect(() => {
 
@@ -17,7 +18,32 @@ function GetBillsForUser({ user }) {
             .catch(err => {
                 console.log(err);
             });
-    })
+    }, [user])
+
+    useEffect(() => {
+
+        axios.get(`https://localhost:5001/api/User/${user.id}`)
+            .then(response => {
+
+                setCreditCardId(response.data.entity.creditCardId)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [user])
+
+    const billHandler = async (id) => {
+  
+        
+        const baseURL = `https://localhost:5001/api/Bill/${id}`;
+
+        await fetch(baseURL, {
+
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+    }
 
     return (
         <div>
@@ -59,9 +85,30 @@ function GetBillsForUser({ user }) {
                                                 </li>
                                             </ul>
                                             <div className="card-body text-center">
-                                                <Link to="/payment" className="btn btn-lg btn-primary">
-                                                    Faturayı Öde
-                                                </Link>
+                                                {
+                                                    creditCardId === null
+                                                        ?
+                                                        <div>
+                                                            <div className="alert alert-danger mt-4" role="alert">
+                                                                <b>
+                                                                    Kredi kartı bilginiz bulunmamaktadır.
+                                                                </b>
+                                                            </div>
+                                                            <Link
+                                                                to={`/addcreditcard/${user.id}`}
+                                                                className='btn btn-lg btn-primary mt-2'>
+                                                                Kredi kartı ekle
+                                                            </Link>
+                                                        </div>
+                                                        :
+                                                        <button
+                                                            type='button'
+                                                            className='btn btn-primary'
+                                                            onClick={() => billHandler(bill.id)}
+                                                        >
+                                                            Faturayı Öde
+                                                        </button>
+                                                }
                                             </div>
                                         </div>
                                     );

@@ -8,6 +8,7 @@ namespace Prometheus.Service.Bill
         public General<BillViewModel> GetUnpaidBillsForUser(int id);
         public General<BillViewModel> GetPaidBillsForUser(int id);
         public General<BillViewModel> GetBillsForUser(int id);
+        public General<BillViewModel> PayBill(int id);
         public General<BillViewModel> GetById(int id);
         public General<BillViewModel> GetAllBills();
         public General<BillViewModel> GetUnpaidBills();
