@@ -105,6 +105,8 @@ namespace Prometheus.DB.Entities.DataContext
                     .IsRequired()
                     .HasMaxLength(50);
 
+                entity.Property(e => e.DueDate).HasColumnType("datetime");
+
                 entity.Property(e => e.Idate)
                     .HasColumnType("datetime")
                     .HasColumnName("IDate")

@@ -18,7 +18,7 @@ function MyMessages({ user }) {
             .catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [sentMessages])
 
     useEffect(() => {
 
@@ -30,23 +30,31 @@ function MyMessages({ user }) {
             .catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [receivedMessages])
 
-    // const deleteHandler = async (e) => {
+    const deleteHandler = async (id) => {
 
-    //     e.preventDefault()
+        const baseURL = `https://localhost:5001/api/Message/${id}`;
 
-    //     const baseURL = `https://localhost:5001/api/Message/${user.id}`;
+        await fetch(baseURL, {
 
-    //     await fetch(baseURL, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+    }
 
-    //         method: 'DELETE',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         credentials: 'include'
-    //     });
+    const readHandler = async (id) => {
 
-    //     
-    // }
+        const baseURL = `https://localhost:5001/api/Message/ReadMessage/${id}`;
+
+        await fetch(baseURL, {
+
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+    }
 
     return (
         <div>
@@ -60,7 +68,7 @@ function MyMessages({ user }) {
                         </Link>
                         <h4 className='mb-4 text-primary'>Gelen Mesajlar</h4>
                         {
-                            receivedMessages ?
+                            receivedMessages.length > 0 ?
                                 receivedMessages.map((receivedMessage, index) => {
 
                                     return (
@@ -68,6 +76,15 @@ function MyMessages({ user }) {
                                             <div className="card-body">
                                                 <h5 className="card-title">
                                                     {moment(receivedMessage.idate).format("DD.MM.YYYY")} tarihli mesaj
+                                                    {
+                                                        receivedMessage.isNewMessage
+                                                            ?
+                                                            <span className='text-danger float-end'>
+                                                                Yeni Mesaj
+                                                            </span>
+                                                            :
+                                                            null
+                                                    }
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">
@@ -76,15 +93,6 @@ function MyMessages({ user }) {
                                                 </li>
                                                 <li className="list-group-item">
                                                     Alıcı: <b>{receivedMessage.receiverName} {receivedMessage.receiverSurname}</b>
-                                                </li>
-                                                <li className="list-group-item">
-                                                    {
-                                                        receivedMessage.isNewMessage
-                                                            ?
-                                                            <p className='text-danger'>Yeni Mesaj</p>
-                                                            :
-                                                            null
-                                                    }
                                                 </li>
                                                 <li className="list-group-item">
                                                     {
@@ -107,6 +115,18 @@ function MyMessages({ user }) {
                                                             receivedMessage.messageContent
                                                         }
                                                     </p>
+                                                    <p className='float-end'>
+                                                        <button
+                                                            onClick={() => readHandler(receivedMessage.id)}
+                                                            className="btn btn-primary">
+                                                            Okundu olarak işaretle
+                                                        </button>
+                                                        <button
+                                                            onClick={() => deleteHandler(receivedMessage.id)}
+                                                            className="btn btn-danger ms-2">
+                                                            Mesajı Sil
+                                                        </button>
+                                                    </p>
                                                 </li>
                                             </ul>
                                         </div>
@@ -121,7 +141,7 @@ function MyMessages({ user }) {
                     <div className='col-10 offset-1 mt-4 p-3 border rounded'>
                         <h4 className='mb-4 text-primary'>Gönderilen Mesajlar</h4>
                         {
-                            sentMessages ?
+                            sentMessages.length > 0 ?
                                 sentMessages.map((sentMessage, index) => {
 
                                     return (
@@ -129,6 +149,15 @@ function MyMessages({ user }) {
                                             <div className="card-body">
                                                 <h5 className="card-title">
                                                     {moment(sentMessage.idate).format("DD.MM.YYYY")} tarihli mesaj
+                                                    {
+                                                        sentMessage.isNewMessage
+                                                            ?
+                                                            <span className='text-danger float-end'>
+                                                                Yeni Mesaj
+                                                            </span>
+                                                            :
+                                                            null
+                                                    }
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">
@@ -137,15 +166,6 @@ function MyMessages({ user }) {
                                                 </li>
                                                 <li className="list-group-item">
                                                     Alıcı: <b>{sentMessage.receiverName} {sentMessage.receiverSurname}</b>
-                                                </li>
-                                                <li className="list-group-item">
-                                                    {
-                                                        sentMessage.isNewMessage
-                                                            ?
-                                                            <p className='text-danger'>Yeni Mesaj</p>
-                                                            :
-                                                            null
-                                                    }
                                                 </li>
                                                 <li className="list-group-item">
                                                     {
@@ -167,6 +187,18 @@ function MyMessages({ user }) {
                                                         {
                                                             sentMessage.messageContent
                                                         }
+                                                    </p>
+                                                    <p className='float-end'>
+                                                        <button
+                                                            onClick={() => readHandler(sentMessage.id)}
+                                                            className="btn btn-primary">
+                                                            Okundu olarak işaretle
+                                                        </button>
+                                                        <button
+                                                            onClick={() => deleteHandler(sentMessage.id)}
+                                                            className="btn btn-danger ms-2">
+                                                            Mesajı Sil
+                                                        </button>
                                                     </p>
                                                 </li>
                                             </ul>

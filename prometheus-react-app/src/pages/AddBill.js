@@ -8,6 +8,7 @@ function AddBill() {
 
     const [billType, setBillType] = useState('')
     const [price, setPrice] = useState(0)
+    const [dueDate, setDueDate] = useState(0)
     const [redirect, setRedirect] = useState(false)
 
     const submitHandler = async (e) => {
@@ -28,7 +29,8 @@ function AddBill() {
 
                 billType,
                 price,
-                userid
+                userid,
+                dueDate
             })
         });
 
@@ -39,7 +41,7 @@ function AddBill() {
         setPrice(content.entity.price)
     }
 
-    if(redirect){
+    if (redirect) {
 
         return <Navigate to={`/userdetail/${userid}`} />
     }
@@ -70,6 +72,17 @@ function AddBill() {
                                         onChange={e => setPrice(e.target.value)}
                                     />
                                     <label htmlFor="floatingPrice">Fatura Tutarı</label>
+                                </div>
+
+                                <div className="form-floating mt-4">
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        id="floatingC"
+                                        placeholder="DueDate"
+                                        onChange={e => setDueDate(e.target.value)}
+                                    />
+                                    <label htmlFor="floatingC">Son Ödeme Tarihi</label>
                                 </div>
 
                                 <button className="w-100 btn btn-lg btn-primary my-4" type="submit">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-function MyProfile() {
+function MyProfile({ user }) {
 
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
@@ -12,31 +12,28 @@ function MyProfile() {
 
     useEffect(() => {
 
-        const baseURL = 'https://localhost:5001/api/User/LoggedUser';
+        const baseURL = `https://localhost:5001/api/User/${user.id}`;
 
         (
             async () => {
 
                 const response = await fetch(baseURL, {
 
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
 
                 const content = await response.json()
-                
-                setName(content.name)
-                setSurname(content.surname)
-                setEmail(content.email)
-                setPhone(content.phone)
-                setTc(content.tc)
-                setPlateNo(content.plateNo)
+
+                setName(content.entity.name)
+                setSurname(content.entity.surname)
+                setEmail(content.entity.email)
+                setPhone(content.entity.phone)
+                setTc(content.entity.tc)
+                setPlateNo(content.entity.plateNo)
             }
         )();
-    }, [])
+    }, [user.id])
 
     return (
         <div>

@@ -11,6 +11,7 @@ namespace Prometheus.Service.User
         public General<ApartmentUserViewModel> GetApartmentUser(int id);
         public General<UserViewModel> Register(AddUserViewModel newUser);
         public General<UserViewModel> UpdateCreditCard(CreditCardUserViewModel user);
+        public General<UserViewModel> UpdateProfile(UpdateProfileViewModel user);
         public General<UserViewModel> DeleteUser(int id);
     }
 }

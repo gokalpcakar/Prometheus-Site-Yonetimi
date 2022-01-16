@@ -53,5 +53,11 @@ namespace Prometheus.API.Controllers
         {
             return messageService.DeleteMessage(id);
         }
+
+        [HttpPut("ReadMessage/{id}")]
+        public General<MessageViewModel> ReadMessage(int id)
+        {
+            return messageService.ReadMessage(id);
+        }
     }
 }

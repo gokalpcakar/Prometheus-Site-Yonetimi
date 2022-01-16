@@ -11,6 +11,7 @@ namespace Prometheus.Model.Bill
         public DateTime? Udate { get; set; }
         public bool IsPaid { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime DueDate { get; set; }
         public int UserId { get; set; }
     }
 }

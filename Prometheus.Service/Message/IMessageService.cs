@@ -11,5 +11,6 @@ namespace Prometheus.Service.Message
         public General<MessageViewModel> AddMessage(AddMessageViewModel newMessage);
         public General<MessageViewModel> UpdateMessage(UpdateMessageViewModel message);
         public General<MessageViewModel> DeleteMessage(int id);
+        public General<MessageViewModel> ReadMessage(int id);
     }
 }

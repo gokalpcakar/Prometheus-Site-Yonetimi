@@ -198,6 +198,46 @@ namespace Prometheus.Service.User
             return result;
         }
 
+        public General<UserViewModel> UpdateProfile(UpdateProfileViewModel user)
+        {
+            var result = new General<UserViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.User.SingleOrDefault(i => i.Id == user.Id);
+
+                    if (model is not null)
+                    {
+                        model.Name = user.Name;
+                        model.Surname = user.Surname;
+                        model.Email = user.Email;
+                        model.Phone = user.Phone;
+                        model.Tc = user.Tc;
+                        model.PlateNo = user.PlateNo;
+                        model.Udate = DateTime.Now;
+
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<UserViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Profil başarıyla güncellenmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrardan deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu.";
+            }
+
+            return result;
+        }
+
         //public General<UserViewModel> UpdateUser(UpdateUserViewModel user)
         //{
         //        var result = new General<UserViewModel>() { IsSuccess = false };

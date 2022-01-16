@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,7 +14,6 @@ namespace Prometheus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
@@ -38,7 +36,6 @@ namespace Prometheus.API.Controllers
             SameSite = SameSiteMode.None
         };
 
-        [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
         public General<UserViewModel> Login(LoginViewModel loginUser)
@@ -80,7 +77,6 @@ namespace Prometheus.API.Controllers
             return result;
         }
 
-        [AllowAnonymous]
         [Route("Logout")]
         [HttpPost]
         public ActionResult Logout()
@@ -94,7 +90,6 @@ namespace Prometheus.API.Controllers
             return Ok(new { message = "success" });
         }
 
-        [AllowAnonymous]
         [Route("LoggedUser")]
         [HttpGet]
         public ActionResult LoggedUser()
@@ -122,28 +117,24 @@ namespace Prometheus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}")]
         public General<UserViewModel> GetUser(int id)
         {
             return userService.GetById(id);
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public General<UserViewModel> GetUsers()
         {
             return userService.GetUsers();
         }
 
-        [AllowAnonymous]
         [HttpGet("AdminUsers")]
         public General<UserViewModel> GetAdminUsers()
         {
             return userService.GetAdminUsers();
         }
 
-        [AllowAnonymous]
         [HttpGet("ApartmentUsers")]
         public ActionResult GetApartmentUsers()
         {
@@ -175,7 +166,6 @@ namespace Prometheus.API.Controllers
         }
 
         // joining user and apartment tables for getting a user by id
-        [AllowAnonymous]
         [HttpGet("ApartmentUser/{id}")]
         public ActionResult GetApartmentUser(int id)
         {
@@ -206,14 +196,12 @@ namespace Prometheus.API.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public General<UserViewModel> Register([FromBody] AddUserViewModel newUser)
         {
             return userService.Register(newUser);
         }
 
-        [AllowAnonymous]
         [Route("UpdateCreditCard")]
         [HttpPut]
         public General<UserViewModel> UpdateCreditCard(CreditCardUserViewModel user)
@@ -221,7 +209,6 @@ namespace Prometheus.API.Controllers
             return userService.UpdateCreditCard(user);
         }
 
-        [AllowAnonymous]
         [HttpPut]
         public General<UserViewModel> UpdateUser([FromBody] UpdateUserViewModel user)
         {
@@ -266,7 +253,12 @@ namespace Prometheus.API.Controllers
             return result;
         }
 
-        [AllowAnonymous]
+        [HttpPut("EditProfile")]
+        public General<UserViewModel> UpdateProfile([FromBody] UpdateProfileViewModel user)
+        {
+            return userService.UpdateProfile(user);
+        }
+
         [HttpDelete("{id}")]
         public General<UserViewModel> DeleteUser(int id)
         {

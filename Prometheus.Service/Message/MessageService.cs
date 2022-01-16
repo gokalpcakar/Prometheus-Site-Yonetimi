@@ -23,7 +23,7 @@ namespace Prometheus.Service.Message
 
             using (var context = new PrometheusContext())
             {
-                var model = context.Message.Where(i => i.SenderId == id && !i.IsDeleted);
+                var model = context.Message.Where(i => i.SenderId == id && !i.IsDeleted).OrderByDescending(i => i.Idate);
 
                 if (model is not null)
                 {
@@ -45,7 +45,7 @@ namespace Prometheus.Service.Message
 
             using (var context = new PrometheusContext())
             {
-                var model = context.Message.Where(i => i.ReceiverId == id && !i.IsDeleted);
+                var model = context.Message.Where(i => i.ReceiverId == id && !i.IsDeleted).OrderByDescending(i => i.Idate);
 
                 if (model is not null)
                 {
@@ -67,16 +67,7 @@ namespace Prometheus.Service.Message
 
             using (var context = new PrometheusContext())
             {
-                var model = context.Message.Where(x => !x.IsDeleted).OrderBy(i => i.Id);
-
-                //foreach (var message in model)
-                //{
-                //    if (message is not null)
-                //    {
-                //        message.IsNewMessage = false;
-                //        context.SaveChanges();
-                //    }
-                //}
+                var model = context.Message.Where(x => !x.IsDeleted).OrderByDescending(i => i.Idate);
 
                 if (model is not null)
                 {
@@ -189,6 +180,40 @@ namespace Prometheus.Service.Message
                         result.Entity = mapper.Map<MessageViewModel>(model);
                         result.IsSuccess = true;
                         result.SuccessfulMessage = "Mesaj silme işlemi başarıyla gerçekleştirilmiştir.";
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
+                    }
+                }
+            }
+            catch
+            {
+                result.ExceptionMessage = "Beklenmedik bir hata oluştu";
+            }
+
+            return result;
+        }
+
+        public General<MessageViewModel> ReadMessage(int id)
+        {
+            var result = new General<MessageViewModel>() { IsSuccess = false };
+
+            try
+            {
+                using (var context = new PrometheusContext())
+                {
+                    var model = context.Message.SingleOrDefault(i => i.Id == id);
+
+                    if (model is not null)
+                    {
+                        model.IsRead = true;
+                        model.IsNewMessage = false;
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<MessageViewModel>(model);
+                        result.IsSuccess = true;
+                        result.SuccessfulMessage = "Mesaj okundu.";
                     }
                     else
                     {

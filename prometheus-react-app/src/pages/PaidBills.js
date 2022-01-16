@@ -53,6 +53,9 @@ function PaidBills({ user }) {
                                                 <li className="list-group-item">
                                                     Tutar: {bill.price}₺
                                                 </li>
+                                                <li className="list-group-item">
+                                                    Son ödeme tarihi: {moment(bill.dueDate).format("DD.MM.YYYY")}
+                                                </li>
                                             </ul>
                                         </div>
                                     );

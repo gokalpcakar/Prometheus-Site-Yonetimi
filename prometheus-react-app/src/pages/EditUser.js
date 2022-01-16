@@ -85,6 +85,7 @@ function EditUser() {
 
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
+            credentials: "include",
             body: JSON.stringify({
                 id,
                 name,

@@ -58,7 +58,7 @@ function AddMessage({ user }) {
             })
         });
 
-        const content = await response.json()
+        await response.json()
 
         setRedirect(true)
     }
@@ -104,7 +104,7 @@ function AddMessage({ user }) {
                                 </div>
 
                                 <div className="form-group mt-4">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder='Mesajınızı giriniz...' onChange={e => setMessageContent(e.target.value)}></textarea>
+                                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder='Mesajınızı giriniz...' onChange={e => setMessageContent(e.target.value)}></textarea>
                                 </div>
 
                                 <button className="w-100 btn btn-lg btn-primary my-4" type="submit">

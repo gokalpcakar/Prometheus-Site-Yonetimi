@@ -79,7 +79,7 @@ function App() {
             <Route path="/login" element={<Login setName={setName} setUser={setUser} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/myprofile" element={<MyProfile user={user} />} />
-            <Route path="/editprofile" element={<EditProfile />} />
+            <Route path="/editprofile" element={<EditProfile user={user} />} />
             <Route path="/getbillsforuser" element={<GetBillsForUser user={user} />} />
             <Route path="/paidbills" element={<PaidBills user={user} />} />
             <Route path="/getallusers" element={<GetAllUsers user={user} />} />

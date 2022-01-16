@@ -33,8 +33,6 @@ function GetBillsForUser({ user }) {
     }, [user])
 
     const billHandler = async (id) => {
-  
-        console.log(id);
 
         const baseURL = `https://localhost:5001/api/Bill/${id}`;
 
@@ -71,7 +69,7 @@ function GetBillsForUser({ user }) {
                                         <div key={index} className="card w-100 my-4">
                                             <div className="card-body">
                                                 <h5 className="card-title">
-                                                    {moment(bill.idate).format("DD.MM.YYYY")} tarihli fatura
+                                                    {moment(bill.idate).format("DD.MM.YYYY")} tarihli alacak
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">
@@ -79,10 +77,13 @@ function GetBillsForUser({ user }) {
                                                     Ad-Soyad: {user.name} {user.surname}
                                                 </li>
                                                 <li className="list-group-item">
-                                                    Fatura türü: {bill.billType} Faturası
+                                                    Alacak türü: {bill.billType}
                                                 </li>
                                                 <li className="list-group-item">
                                                     Tutar: {bill.price}₺
+                                                </li>
+                                                <li className="list-group-item">
+                                                    Son ödeme tarihi: {moment(bill.dueDate).format("DD.MM.YYYY")}
                                                 </li>
                                             </ul>
                                             <div className="card-body text-center">

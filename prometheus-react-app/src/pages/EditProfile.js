@@ -1,57 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 
-function EditProfile() {
+function EditProfile({ user }) {
 
     const [id, setId] = useState('')
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
-    const [password, setPassword] = useState('')
     const [tc, setTc] = useState('')
     const [plateNo, setPlateNo] = useState('')
-    const [isAdmin, setIsAdmin] = useState('')
-    const [apartmentId, setApartmentId] = useState('')
     const [redirect, setRedirect] = useState(false)
 
     useEffect(() => {
 
-        const baseURL = 'https://localhost:5001/api/User/LoggedUser';
+        const baseURL = `https://localhost:5001/api/User/${user.id}`;
 
         (
             async () => {
 
                 const response = await fetch(baseURL, {
 
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
 
                 const content = await response.json()
 
-                setId(content.id)
-                setName(content.name)
-                setSurname(content.surname)
-                setEmail(content.email)
-                setPhone(content.phone)
-                setPassword(content.password)
-                setTc(content.tc)
-                setPlateNo(content.plateNo)
-                setIsAdmin(content.isAdmin)
-                setApartmentId(content.apartmentId)
+                setId(content.entity.id)
+                setName(content.entity.name)
+                setSurname(content.entity.surname)
+                setEmail(content.entity.email)
+                setPhone(content.entity.phone)
+                setTc(content.entity.tc)
+                setPlateNo(content.entity.plateNo)
             }
         )();
-    }, [])
+    }, [user.id])
 
     const submitEvent = async (e) => {
 
         e.preventDefault();
 
-        const baseURL = 'https://localhost:5001/api/User'
+        const baseURL = 'https://localhost:5001/api/User/EditProfile'
 
         await fetch(baseURL, {
 
@@ -63,11 +54,8 @@ function EditProfile() {
                 surname,
                 email,
                 phone,
-                password,
                 tc,
-                plateNo,
-                isAdmin,
-                apartmentId
+                plateNo
             })
         });
 
@@ -87,12 +75,6 @@ function EditProfile() {
                         <div className="card-body p-5 text-center">
                             <form onSubmit={submitEvent}>
                                 <h1 className="h3 mb-3 fw-normal">Profil Güncelleme</h1>
-
-                                <div className="d-none">
-                                    <input
-                                        defaultValue={id}
-                                    />
-                                </div>
 
                                 <div className="form-floating">
                                     <input
@@ -160,25 +142,6 @@ function EditProfile() {
                                         onChange={(e) => setPlateNo(e.target.value)}
                                     />
                                     <label htmlFor="floatingPlateNo">Plaka Numarası</label>
-                                </div>
-
-                                <div className="d-none">
-                                    <input
-                                        type="password"
-                                        defaultValue={password}
-                                    />
-                                </div>
-
-                                <div className="d-none">
-                                    <input
-                                        defaultValue={isAdmin}
-                                    />
-                                </div>
-
-                                <div className="d-none">
-                                    <input
-                                        defaultValue={apartmentId}
-                                    />
                                 </div>
 
                                 <Link to="/login" className="text-center">

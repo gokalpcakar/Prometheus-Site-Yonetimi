@@ -15,6 +15,7 @@ namespace Prometheus.DB.Entities
         public bool IsPaid { get; set; }
         public bool IsDeleted { get; set; }
         public int UserId { get; set; }
+        public DateTime DueDate { get; set; }
 
         public virtual User User { get; set; }
     }
