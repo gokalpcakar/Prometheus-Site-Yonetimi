@@ -39,7 +39,7 @@ function MyProfile({ user }) {
         <div>
             <div className='container py-5 h-100'>
                 <div className='row'>
-                    <div className='col-6 offset-3 p-3 border rounded'>
+                    <div className='col-10 offset-1 p-3 border rounded'>
                         <h4 className='mb-4 text-primary'>Bilgilerim</h4>
                         <p><b>Ad-Soyad:</b> {name} {surname}</p>
                         <p><b>E-Posta</b>: {email}</p>

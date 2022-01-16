@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 function EditProfile({ user }) {
 
@@ -143,10 +143,6 @@ function EditProfile({ user }) {
                                     />
                                     <label htmlFor="floatingPlateNo">Plaka Numarası</label>
                                 </div>
-
-                                <Link to="/login" className="text-center">
-                                    Hesabınız mı var?
-                                </Link>
 
                                 <button className="mt-3 w-100 btn btn-lg btn-primary" type="submit">Gönder</button>
                             </form></div>
