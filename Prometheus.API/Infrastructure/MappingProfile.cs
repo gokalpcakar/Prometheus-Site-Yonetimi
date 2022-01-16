@@ -9,7 +9,7 @@ namespace Prometheus.API.Infrastructure
 {
     public class MappingProfile : Profile
     {
-        // mapping db classes with viewmodels
+        // veritabanı tabloları ile viewmodeller map ediliyor
         public MappingProfile()
         {
             CreateMap<User, UserViewModel>();

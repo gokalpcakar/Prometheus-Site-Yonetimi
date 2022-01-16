@@ -31,10 +31,9 @@ namespace Prometheus.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // adding profile
+            // mapping için profil ekleniyor
             var _mappingProfile = new MapperConfiguration(mp => { mp.AddProfile(new MappingProfile()); });
             IMapper mapper = _mappingProfile.CreateMapper();
 
@@ -43,6 +42,7 @@ namespace Prometheus.API
 
             services.AddMvc().AddSessionStateTempDataProvider();
 
+            // session ekliyoruz
             services.AddSession(options =>
             {
                 options.Cookie.SameSite = SameSiteMode.None;
@@ -50,34 +50,19 @@ namespace Prometheus.API
                 options.Cookie.Name = "SessionUser";
             });
 
-            // configure strongly typed settings object
             var appSettingsSection = Configuration.GetSection("JwtConfig");
             services.Configure<JwtConfig>(appSettingsSection);
 
+            // token ile yetkilendirme ayarlarý yapýlýyor
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwt =>
             {
-                //jwt.Events = new JwtBearerEvents()
-                //{
-                //    OnTokenValidated = context =>
-                //    {
-                //        var userMachine = context.HttpContext.RequestServices.GetRequiredService<UserManager<AppUser>>();
-                //        var user = userMachine.GetUserAsync(context.HttpContext.User);
-
-                //        if (user is null)
-                //        {
-                //            context.Fail("UnAuthorized");
-                //        }
-
-                //        return Task.CompletedTask;
-                //    }
-                //};
                 var appSettings = appSettingsSection.Get<JwtConfig>();
+                // appsettings.json içerisindeki key alýnýyor
                 var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
                 jwt.RequireHttpsMetadata = false;
@@ -88,27 +73,25 @@ namespace Prometheus.API
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
-                    //ValidateLifetime = true,
-                    //RequireExpirationTime = false
                 };
             });
 
             services.AddCors();
 
-            // allows us injection of idbclient 
+            // mongodb'de bulunan kredi kartý bilgileri için bu servis ekleniyor
             services.AddSingleton<IDbClient, DbClient>();
 
-            // mongodb configuration
+            // mongodb konfigürasyonu
             services.Configure<CreditCardDbConfig>(Configuration);
 
-            // configure application services
+            // gerekli servisler iliþkilendiriliyor
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBillService, BillService>();
             services.AddTransient<IApartmentService, ApartmentService>();
             services.AddTransient<ICreditCardService, CreditCardService>();
             services.AddTransient<IMessageService, MessageService>();
 
-            // adding service for json web token
+            // jwt token için gerekli servis ekleniyor
             services.AddScoped<JwtService>();
 
             services.AddControllers();
@@ -128,7 +111,7 @@ namespace Prometheus.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Prometheus.API v1"));
             }
 
-            // port 3000 is react app port
+            // 3000 portu react uygulamamýzýn portu
             app.UseCors(options => options.
                         WithOrigins("http://localhost:3000").
                         AllowAnyHeader().

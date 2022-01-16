@@ -14,6 +14,7 @@ namespace Prometheus.DB.Database
             var database = client.GetDatabase(creditCardDbConfig.Value.Database_Name);
             creditCards = database.GetCollection<CreditCard>(creditCardDbConfig.Value.Credit_Card_Collection_Name);
         }
+        // kredi kartlarını almamızı sağlıyor
         public IMongoCollection<CreditCard> GetCreditCardsCollection()
         {
             return creditCards;

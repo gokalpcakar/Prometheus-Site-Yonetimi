@@ -11,8 +11,11 @@ namespace Prometheus.API.Helpers
         private readonly JwtConfig configuration;
         public JwtService(IOptions<JwtConfig> _configuration)
         {
+            // appsettings.json içerisinde bulunan secret alanıyla token konfigürasyonu yapılıyor
             configuration = _configuration.Value;
         }
+
+        // token verisini dönüyor
         public string Generate(string id)
         {
             var key = Encoding.ASCII.GetBytes(configuration.Secret);
@@ -24,6 +27,8 @@ namespace Prometheus.API.Helpers
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
+
+        // token'ın onaylanmasını sağladığımız metot
         public JwtSecurityToken Verify(string jwt)
         {
             var key = Encoding.ASCII.GetBytes(configuration.Secret);    
