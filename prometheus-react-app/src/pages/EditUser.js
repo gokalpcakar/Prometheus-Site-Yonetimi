@@ -30,10 +30,7 @@ function EditUser() {
 
                 const response = await fetch(baseURL, {
 
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
 
@@ -53,9 +50,10 @@ function EditUser() {
         )();
     }, [params.id])
 
+    // aşağıdaki api sayesinde kullanıcı güncelleneceği zaman konut bilgisi olarak sadece boş konutlar seçilebiliyor
     useEffect(() => {
 
-        axios.get('https://localhost:5001/api/Apartment')
+        axios.get('https://localhost:5001/api/Apartment/EmptyApartments')
             .then(response => {
 
                 setApartments(response.data.list)
@@ -105,7 +103,7 @@ function EditUser() {
 
     if (redirect) {
 
-        return <Navigate to={"/getallusers"} />
+        return <Navigate to={`/userdetail/${id}`} />
     }
 
     return (

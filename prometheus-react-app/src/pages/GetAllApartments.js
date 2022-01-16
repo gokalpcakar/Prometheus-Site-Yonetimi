@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function GetAllApartments() {
 
     const [apartments, setApartments] = useState([])
 
+    // iki farklı tablodan veri gerektiği için join işlemi yapılmış bir api çağırıldı
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/User/ApartmentUsers`)
@@ -27,24 +29,19 @@ function GetAllApartments() {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         });
-
-        axios.get(`https://localhost:5001/api/User/ApartmentUsers`)
-            .then(response => {
-
-                setApartments(response.data)
-            })
-            .catch(err => {
-                console.log(err);
-            });
     }
 
     return (
         <div className='container pt-5'>
             <div className='row'>
                 <div className='col-12'>
+                    <h1 className="text-primary text-center">Konutlar</h1>
+                    <Link to='/addapartment' className='btn btn-lg btn-primary mb-4 float-end'>
+                        Konut Ekle
+                    </Link>
                     <table className="table table-dark table-striped">
                         <thead>
-                            <tr>
+                            <tr className='text-center'>
                                 <th>Ad-Soyad</th>
                                 <th>Blok Adı</th>
                                 <th>Doluluk</th>
@@ -57,7 +54,7 @@ function GetAllApartments() {
                         <tbody>
                             {apartments && apartments.map((apartment) => {
                                 return (
-                                    <tr key={apartment.id}>
+                                    <tr className='text-center' key={apartment.id}>
                                         <td>{apartment.name} {apartment.surname}</td>
                                         <td>{apartment.blockName} Blok</td>
                                         <td>
@@ -68,9 +65,9 @@ function GetAllApartments() {
                                             }
                                         </td>
                                         <td>{apartment.apartmentType}</td>
-                                        <td className='text-center'>{apartment.apartmentFloor}</td>
-                                        <td className='text-center'>{apartment.apartmentNo}</td>
-                                        <td className='text-center'>
+                                        <td>{apartment.apartmentFloor}</td>
+                                        <td>{apartment.apartmentNo}</td>
+                                        <td>
                                             <button
                                                 type='button'
                                                 className='btn btn-danger'

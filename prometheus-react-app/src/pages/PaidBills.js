@@ -6,6 +6,7 @@ function PaidBills({ user }) {
 
     const [bills, setBills] = useState([])
 
+    // Kullanıcı kendi ödediği fatura ya da aidatları görmek istediğinde bu api sayesinde ödediği fatura ve aidatlar getirilyor
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/Bill/GetPaidBillsForUser/${user.id}`)
@@ -40,7 +41,7 @@ function PaidBills({ user }) {
                                         <div key={index} className="card w-100 mb-4">
                                             <div className="card-body">
                                                 <h5 className="card-title">
-                                                    {moment(bill.idate).format("DD.MM.YYYY")} tarihli fatura
+                                                    {moment(bill.idate).format("DD.MM.YYYY")} kesim tarihli alacak
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">
@@ -48,7 +49,7 @@ function PaidBills({ user }) {
                                                     Ad-Soyad: {user.name} {user.surname}
                                                 </li>
                                                 <li className="list-group-item">
-                                                    Fatura türü: {bill.billType} Faturası
+                                                    Alacak türü: {bill.billType}
                                                 </li>
                                                 <li className="list-group-item">
                                                     Tutar: {bill.price}₺

@@ -58,28 +58,6 @@ namespace Prometheus.Service.Apartment
 
             return result;
         }
-        public General<ApartmentViewModel> GetFullApartments()
-        {
-            var result = new General<ApartmentViewModel>() { IsSuccess = false };
-
-            using (var context = new PrometheusContext())
-            {
-                var model = context.Apartment.Where(i => i.IsFull).OrderBy(i => i.Id);
-
-                if (model is not null)
-                {
-                    result.List = mapper.Map<List<ApartmentViewModel>>(model);
-                    result.IsSuccess = true;
-                    result.SuccessfulMessage = "Konutlar başarıyla getirildi.";
-                }
-                else
-                {
-                    result.ExceptionMessage = "Lütfen tekrar giriniz.";
-                }
-            }
-
-            return result;
-        }
         public General<ApartmentViewModel> GetEmptyApartments()
         {
             var result = new General<ApartmentViewModel>() { IsSuccess = false };
@@ -102,7 +80,7 @@ namespace Prometheus.Service.Apartment
 
             return result;
         }
-        public General<ApartmentViewModel> AddApartment(ApartmentViewModel newApartment)
+        public General<ApartmentViewModel> AddApartment(AddApartmentViewModel newApartment)
         {
             var result = new General<ApartmentViewModel>() { IsSuccess = false };
 
@@ -114,6 +92,8 @@ namespace Prometheus.Service.Apartment
 
                     if (model is not null)
                     {
+                        model.IsDeleted = false;
+                        model.IsFull = false;
                         context.Apartment.Add(model);
                         context.SaveChanges();
 
@@ -183,7 +163,7 @@ namespace Prometheus.Service.Apartment
 
                     if (model is not null)
                     {
-                        model.IsDeleted = false;
+                        model.IsDeleted = true;
                         context.SaveChanges();
 
                         result.Entity = mapper.Map<ApartmentViewModel>(model);

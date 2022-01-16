@@ -9,7 +9,6 @@ namespace Prometheus.DB.Entities
     {
         public Apartment()
         {
-            Admin = new HashSet<Admin>();
             User = new HashSet<User>();
         }
 
@@ -21,7 +20,6 @@ namespace Prometheus.DB.Entities
         public int ApartmentFloor { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<Admin> Admin { get; set; }
         public virtual ICollection<User> User { get; set; }
     }
 }

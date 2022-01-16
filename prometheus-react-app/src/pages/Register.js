@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import axios from "axios"
 
 function Register() {
@@ -18,7 +18,7 @@ function Register() {
 
     useEffect(() => {
 
-        // new user only see empty apartments
+        // yeni kullanıcı eklenmek istendiğinde kullanıcıya sadece boş daireler gözüküyor
         axios.get('https://localhost:5001/api/Apartment/EmptyApartments')
             .then(response => {
 
@@ -71,7 +71,7 @@ function Register() {
                     <div className="card shadow-2-strong" style={{ borderRadius: "1rem" }}>
                         <div className="card-body p-5 text-center">
                             <form onSubmit={submitEvent}>
-                                <h1 className="h3 mb-3 fw-normal">Kayıt Olun</h1>
+                                <h1 className="h3 mb-3 fw-normal">Kullanıcı Ekle</h1>
 
                                 <div className="form-floating">
                                     <input
@@ -165,10 +165,6 @@ function Register() {
                                         })}
                                     </select>
                                 </div>
-
-                                <Link to="/login" className="text-center">
-                                    Hesabınız mı var?
-                                </Link>
 
                                 <button className="mt-3 w-100 btn btn-lg btn-primary" type="submit">Gönder</button>
                             </form></div>

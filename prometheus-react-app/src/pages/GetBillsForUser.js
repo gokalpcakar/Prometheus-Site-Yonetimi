@@ -8,6 +8,7 @@ function GetBillsForUser({ user }) {
     const [bills, setBills] = useState([])
     const [creditCardId, setCreditCardId] = useState([])
 
+    // admin bir kullanıcı hakkındaki fatura ya da aidatları görmek istediğinde ödenmemiş fatura ya da aidatlarını görüyor
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/Bill/GetUnpaidBillsForUser/${user.id}`)
@@ -20,6 +21,8 @@ function GetBillsForUser({ user }) {
             });
     }, [bills])
 
+    // kullanıcının kredi kartı bilgisi yoksa kullanıcı ödeme işlemini gerçekleştiremiyor
+    // burada setCreditCardId diyerek sistemdeki kredi kartı bilgisini alıyoruz
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/User/${user.id}`)
@@ -69,7 +72,7 @@ function GetBillsForUser({ user }) {
                                         <div key={index} className="card w-100 my-4">
                                             <div className="card-body">
                                                 <h5 className="card-title">
-                                                    {moment(bill.idate).format("DD.MM.YYYY")} tarihli alacak
+                                                    {moment(bill.idate).format("DD.MM.YYYY")} kesim tarihli alacak
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">

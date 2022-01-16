@@ -9,11 +9,14 @@ function AddCreditCard() {
     const userId = params.id
 
     let creditCardId = ""
-    // const [creditCardId, setCreditCardId] = useState()
     const [creditCardNo, setCreditCardNo] = useState()
     const [creditCardCVV, setCreditCardCVV] = useState()
     const [expirationDate, setExpirationDate] = useState()
 
+    // mongodb'de kredi kartı bilgilerimize yeni bir kredi kartı ekliyoruz
+    // her kullanıcının bir kredi kartı olacak şekilde sistem kuruldu
+    // burada aynı zamanda ilgili kullanıcıya kredi kartı id'si atanıyor
+    // çünkü kullanıcının sistemde kayıtlı kredi kartı yoksa ödeme işlemini gerçekleştiremiyor
     const submitHandler = async (e) => {
 
         e.preventDefault()
@@ -34,8 +37,6 @@ function AddCreditCard() {
 
         const content = await response.json()
         creditCardId = content.id
-        console.log(creditCardId);
-        console.log(userId);
 
         await fetch('https://localhost:5001/api/User/UpdateCreditCard', {
 

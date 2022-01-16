@@ -26,10 +26,7 @@ function UserDetail() {
 
                 const response = await fetch(baseURL, {
 
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
 
@@ -100,7 +97,7 @@ function UserDetail() {
                                         <div key={index} className="card w-100 mb-4">
                                             <div className="card-body">
                                                 <h5 className="card-title">
-                                                    {moment(bill.idate).format("DD.MM.YYYY")} tarihli alacak
+                                                    {moment(bill.idate).format("DD.MM.YYYY")} kesim tarihli alacak
                                                 </h5>
                                             </div>
                                             <ul className="list-group list-group-flush">

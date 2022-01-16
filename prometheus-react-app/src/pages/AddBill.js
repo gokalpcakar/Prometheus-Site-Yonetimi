@@ -11,6 +11,7 @@ function AddBill() {
     const [dueDate, setDueDate] = useState(0)
     const [redirect, setRedirect] = useState(false)
 
+    // kullanıcıya fatura ekliyoruz
     const submitHandler = async (e) => {
 
         e.preventDefault()
@@ -20,10 +21,7 @@ function AddBill() {
         const response = await fetch(baseURL, {
 
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({
 
@@ -41,6 +39,7 @@ function AddBill() {
         setPrice(content.entity.price)
     }
 
+    // kullanıcıysa fatura eklendikten sonra kullanıcının detay sayfasına geçiş yapıyoruz
     if (redirect) {
 
         return <Navigate to={`/userdetail/${userid}`} />

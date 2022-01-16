@@ -11,6 +11,7 @@ function AddMessage({ user }) {
     const [adminUsers, setAdminUsers] = useState([])
     const [redirect, setRedirect] = useState(false)
 
+    // admin herkese mesaj atabileceği için tüm kullanıcıları getiriyoruz
     useEffect(() => {
 
         axios.get('https://localhost:5001/api/User')
@@ -23,6 +24,7 @@ function AddMessage({ user }) {
             })
     }, [])
 
+    //  burada normal kullanıcılar sadece admine mesaj atabilsin diye adminlerin listelendiği apiyi kullanıyoruz
     useEffect(() => {
 
         axios.get('https://localhost:5001/api/User/AdminUsers')

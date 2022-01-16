@@ -135,6 +135,7 @@ namespace Prometheus.API.Controllers
             return userService.GetAdminUsers();
         }
 
+        // Konutların kullanıcı bilgileriyle beraber gelmesini join işlemi ile sağladığımız api
         [HttpGet("ApartmentUsers")]
         public ActionResult GetApartmentUsers()
         {
@@ -144,7 +145,7 @@ namespace Prometheus.API.Controllers
                 var query = from user in context.User
                             join apartment in context.Apartment
                             on user.ApartmentId equals apartment.Id
-                            where apartment.Id == user.ApartmentId && apartment.IsDeleted == false
+                            where apartment.Id == user.ApartmentId && !apartment.IsDeleted && !user.IsDeleted
                             orderby apartment.Id
                             select new ApartmentUserViewModel()
                             {
@@ -165,7 +166,7 @@ namespace Prometheus.API.Controllers
             }
         }
 
-        // joining user and apartment tables for getting a user by id
+        // bir konutun kullanıcı bilgileriyle beraber gelmesini join işlemi ile sağladığımız api
         [HttpGet("ApartmentUser/{id}")]
         public ActionResult GetApartmentUser(int id)
         {
@@ -202,6 +203,8 @@ namespace Prometheus.API.Controllers
             return userService.Register(newUser);
         }
 
+        // kredi kartı bilgisinin güncellendiği api
+        // kredi kartı id'sini kullanıcı üzerinden alıyoruz
         [Route("UpdateCreditCard")]
         [HttpPut]
         public General<UserViewModel> UpdateCreditCard(CreditCardUserViewModel user)
@@ -253,6 +256,7 @@ namespace Prometheus.API.Controllers
             return result;
         }
 
+        // Kullanıcıların kendi profillerini düzenlemesini sağlayan api
         [HttpPut("EditProfile")]
         public General<UserViewModel> UpdateProfile([FromBody] UpdateProfileViewModel user)
         {

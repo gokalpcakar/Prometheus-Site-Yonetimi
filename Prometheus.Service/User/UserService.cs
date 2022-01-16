@@ -97,30 +97,6 @@ namespace Prometheus.Service.User
 
             return result;
         }
-        public General<ApartmentUserViewModel> GetApartmentUser(int id)
-        {
-            var result = new General<ApartmentUserViewModel>() { IsSuccess = false };
-
-            using (var context = new PrometheusContext())
-            {
-                var data = context.User
-                                    .SingleOrDefault(x => x.ApartmentId == id && x.IsActive && !x.IsDeleted);
-
-                // if we have user then we can list them otherwise we get exception message
-                if (data is not null)
-                {
-                    result.Entity = mapper.Map<ApartmentUserViewModel>(data);
-                    result.IsSuccess = true;
-                    result.SuccessfulMessage = "Kullanıcılar başarıyla getirilmiştir.";
-                }
-                else
-                {
-                    result.ExceptionMessage = "Hiçbir kullanıcı bulunamadı.";
-                }
-            }
-
-            return result;
-        }
 
         public General<UserViewModel> Register(AddUserViewModel newUser)
         {

@@ -32,6 +32,7 @@ function Login({ setName, setUser }) {
         setUser(content.entity)
     }
 
+    // giriş işlemi başarılıysa ana sayfaya gidiliyor
     if (redirect) {
 
         return <Navigate to={"/"} />
@@ -68,10 +69,6 @@ function Login({ setName, setUser }) {
                                 </div>
 
                                 <button className="w-100 btn btn-lg btn-primary my-4" type="submit">Giriş Yap</button>
-                                <Link to="/forgotPassword" className="text-center">
-                                    Şifremi Unuttum?
-                                </Link>
-                                <hr className="my-4" />
 
                                 <Link to="/register" className="w-100 btn btn-lg btn-success">
                                     Yeni Hesap Oluştur

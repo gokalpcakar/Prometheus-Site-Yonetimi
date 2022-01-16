@@ -26,12 +26,6 @@ namespace Prometheus.API.Controllers
         {
             return apartmentService.GetAllApartments();
         }
-        [Route("FullApartments")]
-        [HttpGet]
-        public General<ApartmentViewModel> GetFullApartments()
-        {
-            return apartmentService.GetFullApartments();
-        }
         [Route("EmptyApartments")]
         [HttpGet]
         public General<ApartmentViewModel> GetEmptyApartments()
@@ -39,7 +33,7 @@ namespace Prometheus.API.Controllers
             return apartmentService.GetEmptyApartments();
         }
         [HttpPost]
-        public General<ApartmentViewModel> AddApartment(ApartmentViewModel newApartment)
+        public General<ApartmentViewModel> AddApartment(AddApartmentViewModel newApartment)
         {
             return apartmentService.AddApartment(newApartment);
         }

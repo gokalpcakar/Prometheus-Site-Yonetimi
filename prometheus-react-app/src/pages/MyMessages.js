@@ -8,6 +8,7 @@ function MyMessages({ user }) {
     const [sentMessages, setSentMessages] = useState([])
     const [receivedMessages, setReceivedMessages] = useState([])
 
+    // gönderici olunan mesajlar getiriliyor
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/Message/GetBySender/${user.id}`)
@@ -20,6 +21,7 @@ function MyMessages({ user }) {
             });
     }, [sentMessages])
 
+    // alıcı olunan mesajlar getiriliyor
     useEffect(() => {
 
         axios.get(`https://localhost:5001/api/Message/GetByReceiver/${user.id}`)
@@ -44,6 +46,7 @@ function MyMessages({ user }) {
         });
     }
 
+    // okundu olarak işaretle dendiğinde ilgili mesajın isRead değeri değiştiriliyor
     const readHandler = async (id) => {
 
         const baseURL = `https://localhost:5001/api/Message/ReadMessage/${id}`;

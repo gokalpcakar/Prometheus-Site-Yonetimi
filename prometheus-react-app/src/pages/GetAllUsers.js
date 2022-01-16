@@ -34,34 +34,38 @@ function GetAllUsers() {
         <div className='container pt-5'>
             <div className='row'>
                 <div className='col-12'>
+                    <h1 className="text-primary text-center">Kullanıcılar</h1>
+                    <Link to='/register' className='btn btn-lg btn-primary mb-4 float-end'>
+                        Kullanıcı Ekle
+                    </Link>
                     <table className="table table-dark table-striped">
                         <thead>
-                            <tr>
+                            <tr className='text-center'>
                                 <th>Ad-Soyad</th>
                                 <th>E-Posta</th>
                                 <th>Telefon Numarası</th>
                                 <th>TC Kimlik Numarası</th>
                                 <th>Plaka Numarası</th>
-                                <th className='text-center'>Detay</th>
-                                <th className='text-center'>Sil</th>
+                                <th>Detay</th>
+                                <th>Sil</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users && users.map((user) => {
                                 return (
-                                    <tr key={user.id}>
+                                    <tr key={user.id} className='text-center'>
                                         <td>{user.name} {user.surname}</td>
                                         <td>{user.email}</td>
                                         <td>{user.phone}</td>
                                         <td>{user.tc}</td>
                                         <td>{user.plateNo}</td>
-                                        <td className='text-center'>
+                                        <td>
                                             <Link to={`/userdetail/${user.id}`}
                                                 className="btn btn-primary">
                                                 Detay
                                             </Link>
                                         </td>
-                                        <td className='text-center'>
+                                        <td>
                                             <button
                                                 className='btn btn-danger'
                                                 onClick={() => deleteHandler(user.id)}

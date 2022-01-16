@@ -15,35 +15,6 @@ namespace Prometheus.Service.Bill
         {
             mapper = _mapper;
         }
-        public General<BillViewModel> GetBillsForUser(int id)
-        {
-            var result = new General<BillViewModel>() { IsSuccess = false };
-
-            try
-            {
-                using (var context = new PrometheusContext())
-                {
-                    var model = context.Bill.Where(i => i.UserId == id && !i.IsDeleted);
-
-                    if (model is not null)
-                    {
-                        result.List = mapper.Map<List<BillViewModel>>(model);
-                        result.IsSuccess = true;
-                        result.SuccessfulMessage = "Faturalar başarıyla getirilmiştir.";
-                    }
-                    else
-                    {
-                        result.ExceptionMessage = "Lütfen tekrar deneyiniz";
-                    }
-                }
-            }
-            catch
-            {
-                result.ExceptionMessage = "Beklenmedik bir hata oluştu. Tekrar deneyiniz.";
-            }
-
-            return result;
-        }
         public General<BillViewModel> GetUnpaidBillsForUser(int id)
         {
             var result = new General<BillViewModel>() { IsSuccess = false };
@@ -151,50 +122,6 @@ namespace Prometheus.Service.Bill
                 else
                 {
                     result.ExceptionMessage = "Lütfen tekrar deneyiniz";
-                }
-            }
-
-            return result;
-        }
-        public General<BillViewModel> GetAllBills()
-        {
-            var result = new General<BillViewModel>() { IsSuccess = false };
-
-            using (var context = new PrometheusContext())
-            {
-                var data = context.Bill.Where(i => !i.IsDeleted).OrderBy(i => i.Id);
-
-                if (data.Any())
-                {
-                    result.List = mapper.Map<List<BillViewModel>>(data);
-                    result.IsSuccess = true;
-                    result.SuccessfulMessage = "Faturalar başarıyla getirilmiştir.";
-                }
-                else
-                {
-                    result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
-                }
-            }
-
-            return result;
-        }
-        public General<BillViewModel> GetUnpaidBills()
-        {
-            var result = new General<BillViewModel>() { IsSuccess = false };
-
-            using (var context = new PrometheusContext())
-            {
-                var data = context.Bill.Where(i => !i.IsPaid && !i.IsDeleted).OrderBy(i => i.Id);
-
-                if (data.Any())
-                {
-                    result.List = mapper.Map<List<BillViewModel>>(data);
-                    result.IsSuccess = true;
-                    result.SuccessfulMessage = "Ödenmemiş faturalar başarıyla getirilmiştir.";
-                }
-                else
-                {
-                    result.ExceptionMessage = "Lütfen tekrar deneyiniz.";
                 }
             }
 

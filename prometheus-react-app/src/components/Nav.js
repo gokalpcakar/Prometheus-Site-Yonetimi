@@ -10,10 +10,7 @@ function Nav({ name, setName, isAdmin }) {
         await fetch(baseURL, {
 
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             credentials: 'include'
         });
 
@@ -34,15 +31,14 @@ function Nav({ name, setName, isAdmin }) {
                             <li className="nav-item">
                                 <Link to="/" className="nav-link active" aria-current="page">Anasayfa</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to="/register" className="nav-link">Kayıt Ol</Link>
-                            </li>
                             {
                                 (name === '' || name === undefined)
+                                    // eğer giriş yapmış kullanıcı yoksa giriş yap seçeneği geliyor
                                     ?
                                     <li className="nav-item">
                                         <Link to="/login" className="nav-link">Giriş Yap</Link>
                                     </li>
+                                    // giriş yapmış kullanıcı yoksa aşağıdaki alanla karşılıyoruz
                                     :
                                     <li className="nav-item">
                                         <div className="dropdown">
@@ -65,6 +61,9 @@ function Nav({ name, setName, isAdmin }) {
                                                     className="dropdown-item">
                                                     Mesajlarım
                                                 </Link>
+                                                {/* 
+                                                    giriş yapmış kullanıcının admin olup olmamasına göre birçok alana erişim yapılıyor
+                                                 */}
                                                 {
                                                     isAdmin ?
                                                         <Link to="/getallusers"
@@ -79,6 +78,14 @@ function Nav({ name, setName, isAdmin }) {
                                                         <Link to="/getallapartments"
                                                             className="dropdown-item">
                                                             Konutlar
+                                                        </Link>
+                                                        :
+                                                        null
+                                                }
+                                                {
+                                                    isAdmin ?
+                                                        <Link to="/getallbills" className="dropdown-item">
+                                                            Fatura ve Aidatlar
                                                         </Link>
                                                         :
                                                         null

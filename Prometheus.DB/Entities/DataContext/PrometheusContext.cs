@@ -19,7 +19,6 @@ namespace Prometheus.DB.Entities.DataContext
         {
         }
 
-        public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<Apartment> Apartment { get; set; }
         public virtual DbSet<Bill> Bill { get; set; }
         public virtual DbSet<Message> Message { get; set; }
@@ -36,55 +35,6 @@ namespace Prometheus.DB.Entities.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Turkish_CI_AS");
-
-            modelBuilder.Entity<Admin>(entity =>
-            {
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Idate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("IDate")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(16);
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(10);
-
-                entity.Property(e => e.PlateNo).HasMaxLength(9);
-
-                entity.Property(e => e.Surname)
-                    .IsRequired()
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.Tc)
-                    .IsRequired()
-                    .HasMaxLength(11)
-                    .HasColumnName("TC");
-
-                entity.Property(e => e.Udate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("UDate");
-
-                entity.HasOne(d => d.Apartment)
-                    .WithMany(p => p.Admin)
-                    .HasForeignKey(d => d.ApartmentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Admin_Apartment");
-            });
 
             modelBuilder.Entity<Apartment>(entity =>
             {

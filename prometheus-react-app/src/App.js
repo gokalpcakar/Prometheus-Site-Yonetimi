@@ -17,6 +17,8 @@ import AddCreditCard from './pages/AddCreditCard';
 import GetAllApartments from './pages/GetAllApartments';
 import MyMessages from './pages/MyMessages';
 import AddMessage from './pages/AddMessage';
+import GetAllBills from './pages/GetAllBills';
+import AddApartment from './pages/AddApartment';
 
 function App() {
 
@@ -80,6 +82,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/myprofile" element={<MyProfile user={user} />} />
             <Route path="/editprofile" element={<EditProfile user={user} />} />
+            <Route path="/getallbills" element={<GetAllBills />} />
             <Route path="/getbillsforuser" element={<GetBillsForUser user={user} />} />
             <Route path="/paidbills" element={<PaidBills user={user} />} />
             <Route path="/getallusers" element={<GetAllUsers user={user} />} />
@@ -88,6 +91,7 @@ function App() {
             <Route path="/addbill/:id" element={<AddBill />} />
             <Route path="/addcreditcard/:id" element={<AddCreditCard />} />
             <Route path="/getallapartments" element={<GetAllApartments />} />
+            <Route path="/addapartment" element={<AddApartment />} />
             <Route path="/mymessages" element={<MyMessages user={user} />} />
             <Route path="/addmessage" element={<AddMessage user={user} />} />
           </Routes>

@@ -27,13 +27,14 @@ namespace Prometheus.API.Infrastructure
             CreateMap<Apartment, ApartmentViewModel>();
             CreateMap<ApartmentViewModel, Apartment>();
 
+            CreateMap<Apartment, AddApartmentViewModel>();
+            CreateMap<AddApartmentViewModel, Apartment>();
+
             CreateMap<Message, MessageViewModel>();
             CreateMap<MessageViewModel, Message>();
 
             CreateMap<Message, AddMessageViewModel>();
             CreateMap<AddMessageViewModel, Message>();
-
-            //CreateMap<User, ApartmentUserViewModel>();
         }
     }
 }
